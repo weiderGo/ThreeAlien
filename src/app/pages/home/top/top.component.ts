@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { Router } from '@angular/router';
 import { environment } from '../../../../environments/environment';
@@ -12,7 +12,8 @@ import { MatButtonModule } from '@angular/material/button';
     styleUrl: './top.component.scss'
 })
 export class TopComponent {
-  constructor( private router: Router) { }
+  router = inject(Router);
+  constructor() { }
 
   title = environment.production ? '' : '測試區';
   userName!: string;

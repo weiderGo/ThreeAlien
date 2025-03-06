@@ -1,13 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDrawerToggleResult, MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
-import { TopComponent } from './top/top.component';
-import { MatIconModule } from '@angular/material/icon';
-import { AsideComponent } from './aside/aside.component';
-import { RouterOutlet } from '@angular/router';
-import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatSidenav, MatDrawerToggleResult, MatSidenavModule } from '@angular/material/sidenav';
+import { CommonModule } from '@angular/common';
+import { AsideComponent } from './aside/aside.component';
+import { TopComponent } from '../home/top/top.component';
+import { RouterOutlet } from '@angular/router';
+
+
 @Component({
     selector: 'app-home',
+    standalone:true,
     imports: [MatSidenavModule, AsideComponent, TopComponent, RouterOutlet, MatIconModule, CommonModule, MatButtonModule],
     templateUrl: './home.component.html',
     styleUrl: './home.component.scss'
