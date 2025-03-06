@@ -1,0 +1,32 @@
+<mat-sidenav-container [hasBackdrop]="true">
+  <!--左側欄-->
+  <mat-sidenav #sideNav mode="side" class="sidenav">
+    <app-aside></app-aside>
+  </mat-sidenav>
+  <mat-sidenav-content style="margin-left: 0px;">
+    <div class="layout">
+      <!--上層-->
+      <div class="top" [ngClass]="{'sideOpen':sideNav.opened}">
+        <div class="top_layout">
+          <div style="padding-left: 10px;">
+            <button  mat-mini-fab (click)="toggleSideNav(sideNav)">
+              <mat-icon>{{ sideNav.opened ? 'chevron_left' : 'menu' }}</mat-icon>
+            </button>
+          </div>
+          <div>
+            <app-top></app-top>
+          </div>
+        </div>
+      </div>
+      <!--內容-->
+      <div class="content" [ngClass]="{'sideOpen':sideNav.opened}">
+        <div class="content_layout">
+          <div>
+            網頁內容
+            <router-outlet></router-outlet>
+          </div>
+        </div>
+      </div>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

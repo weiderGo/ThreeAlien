@@ -1,0 +1,35 @@
+.layout {
+  width: 230px;
+  height: 50px;
+  display: flex;
+  font-size: 24px;
+  margin: 0;
+  font-family: 'Palanquin Dark', Arial, Helvetica, sans-serif, "Noto Sans TC";
+  line-height: 1.2em;
+  color: #262626;
+  letter-spacing: 2px;
+  -webkit-text-size-adjust: 100%;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+
+/**原來的兩倍*/
+.icon {
+  transform: scale(1.5);
+}
+
+.loginNameCss {}
+
+.signOut {
+  font-weight: bold;
+}
+
+.signOut:hover {
+  cursor: pointer;
+}
+
+.status {
+  font-size: 14px;
+  color: red;
+}
