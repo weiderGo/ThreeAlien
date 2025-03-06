@@ -5,11 +5,11 @@ import { environment } from '../../../../environments/environment';
 import { MatButtonModule } from '@angular/material/button';
 
 @Component({
-  selector: 'app-top',
-  standalone: true,
-  imports: [MatIconModule,MatButtonModule],
-  templateUrl: './top.component.html',
-  styleUrl: './top.component.scss'
+    selector: 'app-top',
+    standalone: true,
+    imports: [MatIconModule, MatButtonModule],
+    templateUrl: './top.component.html',
+    styleUrl: './top.component.scss'
 })
 export class TopComponent {
   constructor( private router: Router) { }
