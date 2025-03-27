@@ -1,0 +1,21 @@
+.breadcrumb-container {
+  border-left: 7px solid #000;
+  padding-left: 14px;
+  font-size: 20px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  height: 37px;
+}
+
+.breadcrumb-item {
+  display: flex;
+  align-items: center;
+}
+
+
+
+.breadcrumb-separator {
+  padding: 0 0.5rem;
+}

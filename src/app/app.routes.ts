@@ -3,26 +3,39 @@ import { Routes } from '@angular/router';
 export const routes: Routes = [
   {
     path: "",
-    loadComponent: () => import('./pages/home/home.component').then(mod => mod.HomeComponent),
-    data: { title: "首頁" }
+    loadComponent: () => import('./pages/common/home/home.component').then(mod => mod.HomeComponent),
+    children: [
+      {
+        path: "",
+        redirectTo: "home",
+        pathMatch: "full"
+      },
+      {
+        path: "homeManage",
+        loadComponent: () => import('./pages/system/home-manage/home-manage.component').then(mod => mod.HomeManageComponent),
+        data: { title: "首頁管理" }
+      },
+      {
+        path: "pageManage",
+        loadComponent: () => import('./pages/system/page-manage/page-manage.component').then(mod => mod.PageManageComponent),
+        data: { title: "頁面管理" }
+      },
+      {
+        path: "**",
+        loadComponent: () => import('./pages/common/not-found/not-found.component').then(mod => mod.NotFoundComponent),
+        data: { title: "找不到頁面" }
+      },
+    ]
   },
-  // {
-  //   path: "home",
-  //   loadComponent: () =>
-  //     import('./pages/home/home.component').then((mod) => mod.HomeComponent),
-  //   data: { title: "主頁" },
-  //   children: [
-  //     {
-  //       path: "",
-  //       redirectTo: "home",
-  //       pathMatch: "full"
-  //     },
-  //   ]
-  // },
-  // // 當路徑是空的時候轉址到 login
+  // 當路徑是空的時候轉址到 login
+  {
+    path: "**",
+    redirectTo: "home",
+    pathMatch: "full"
+  }
   // {
   //   path: "**",
-  //   redirectTo: "home",
+  //   loadComponent: () => import('./pages/common/not-found/not-found.component').then(mod => mod.NotFoundComponent),
   // },
   /**萬用路徑，路由沒有比對到，永遠會執行*/
   //{ path: "**", component: HomeComponent,},

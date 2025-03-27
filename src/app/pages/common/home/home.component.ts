@@ -6,12 +6,13 @@ import { CommonModule } from '@angular/common';
 import { AsideComponent } from './aside/aside.component';
 import { TopComponent } from '../home/top/top.component';
 import { RouterOutlet } from '@angular/router';
+import { BreadcrumbComponent } from '../breadcrumb/breadcrumb.component';
 
 
 @Component({
     selector: 'app-home',
     standalone:true,
-    imports: [MatSidenavModule, AsideComponent, TopComponent, RouterOutlet, MatIconModule, CommonModule, MatButtonModule],
+    imports: [MatSidenavModule, AsideComponent, TopComponent, RouterOutlet, MatIconModule, CommonModule, MatButtonModule,BreadcrumbComponent],
     templateUrl: './home.component.html',
     styleUrl: './home.component.scss'
 })

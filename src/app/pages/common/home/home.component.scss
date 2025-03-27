@@ -64,12 +64,13 @@ $side-nav-width: 250px;
 
 .content {
   flex-grow: 1;
-  padding: 20px;
+  padding: 50px;
 }
 
 .content_layout {
   display: flex;
   height: 100%;
+  width: 100%;
 }
 
 .sideOpen {

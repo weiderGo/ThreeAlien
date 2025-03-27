@@ -1,8 +1,8 @@
 import { Component, inject } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { Router } from '@angular/router';
-import { environment } from '../../../../environments/environment';
 import { MatButtonModule } from '@angular/material/button';
+import { environment } from '../../../../../environments/environment';
 
 @Component({
     selector: 'app-top',

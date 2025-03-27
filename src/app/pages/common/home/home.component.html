@@ -21,8 +21,8 @@
       <!--內容-->
       <div class="content" [ngClass]="{'sideOpen':sideNav.opened}">
         <div class="content_layout">
-          <div>
-            網頁內容
+          <div style="width: 100%;">
+            <app-breadcrumb></app-breadcrumb>
             <router-outlet></router-outlet>
           </div>
         </div>
