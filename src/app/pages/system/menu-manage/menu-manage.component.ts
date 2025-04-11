@@ -1,10 +1,14 @@
-import { Component, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { Component, QueryList, ViewChild, ViewChildren, inject } from '@angular/core';
 import { CdkDragDrop, CdkDropList, CdkDrag, moveItemInArray } from '@angular/cdk/drag-drop';
 import { MatTable, MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { CommonModule } from '@angular/common';
+import { MatInputModule } from '@angular/material/input';
+import { FormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { Router } from '@angular/router';
 
 
 export interface menuModel {
@@ -48,16 +52,19 @@ export const ELEMENT_DATA: menuModel[] = [
 ];
 
 @Component({
-  selector: 'app-page-manage',
+  selector: 'app-menu-manage',
   imports: [
     CommonModule,
+    MatFormFieldModule,
+    FormsModule,
     CdkDropList,
     CdkDrag,
     MatTableModule,
     MatIconModule,
-    MatButtonModule ],
-  templateUrl: './page-manage.component.html',
-  styleUrl: './page-manage.component.scss',
+    MatButtonModule,
+    MatInputModule],
+  templateUrl: './menu-manage.component.html',
+  styleUrl: './menu-manage.component.scss',
   animations: [
     trigger('detailExpand', [
       state('collapsed', style({ height: '0px', minHeight: '0' })),
@@ -67,11 +74,10 @@ export const ELEMENT_DATA: menuModel[] = [
   ],
   standalone: true
 })
-export class PageManageComponent {
+export class MenuManageComponent {
   @ViewChild('table', { static: true }) table!: MatTable<menuModel>;
-  @ViewChildren(MatTable) subTables!: QueryList<MatTable<subModel>>; // 取得所有子表格
-
-
+  @ViewChildren(MatTable) subTables!: QueryList<MatTable<subModel>>;
+  router = inject(Router);
   displayedColumns: string[] = ['sort', 'isEdit'];
   expandedElement: menuModel | null = null;
   dataSource = ELEMENT_DATA;
@@ -106,19 +112,19 @@ export class PageManageComponent {
   isExpanded(element: menuModel) {
     return this.expandedElement === element;
   }
-  onSave(data: menuModel){
+  onSave(data: menuModel) {
     data.isEdit = !data.isEdit;
   }
-  onOpenPage(){
+  onOpenPage() {
+    this.router.navigate(['/pageManage']);
+  }
+  onDelete(data: menuModel) {
 
   }
-  onDelete(data: menuModel){
-
-  }
-  onEdit(data: menuModel){
+  onEdit(data: menuModel) {
     data.isEdit = !data.isEdit;
   }
-  onCancel(data: menuModel){
+  onCancel(data: menuModel) {
     data.isEdit = !data.isEdit;
   }
 }

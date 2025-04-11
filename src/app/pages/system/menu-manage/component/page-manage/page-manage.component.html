@@ -1,0 +1,24 @@
+<div class="upload-container">
+  <div class="upload-box">
+    <div class="icon">
+      <div><mat-icon>image</mat-icon></div>
+      <div style="padding-left: 5px;">圖片</div>
+    </div>
+
+    <label class="upload-button">
+      上傳
+      <input type="file" accept=".jpg,.jpeg,.png" (change)="onFileChange($event)" hidden />
+    </label>
+
+    <div class="filename">
+      {{ selectedFileName || '尚無檔案' }}
+    </div>
+  </div>
+  <div>
+    <p-editor #quillEditor [modules]="editorModules" [(ngModel)]="text" [style]="{ height: 'auto' }" (onTextChange)="onTextChange($event)"/>
+  </div>
+</div>
+
+
+<button (click)="test()">55</button>
+<div [innerHTML]="safeText"></div>

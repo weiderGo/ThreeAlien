@@ -16,9 +16,14 @@ export const routes: Routes = [
         data: { title: "首頁管理" }
       },
       {
+        path: "menuManage",
+        loadComponent: () => import('./pages/system/menu-manage/menu-manage.component').then(mod => mod.MenuManageComponent),
+        data: { title: "選單設定" },
+      },
+      {
         path: "pageManage",
-        loadComponent: () => import('./pages/system/page-manage/page-manage.component').then(mod => mod.PageManageComponent),
-        data: { title: "頁面管理" }
+        loadComponent: () => import('./pages/system/menu-manage/component/page-manage/page-manage.component').then(mod => mod.PageManageComponent),
+        data: { title: "內頁管理" },
       },
       {
         path: "**",

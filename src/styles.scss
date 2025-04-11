@@ -62,3 +62,10 @@ body {
   font-size: 18px;
   letter-spacing: 2px;
 }
+.p-editor .p-editor-toolbar {
+  display: none !important;
+}
+.ql-toolbar.ql-snow {
+  background-color: var(--p-editor-content-background);
+  border: 1px solid #5f5f5f;
+}
