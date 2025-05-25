@@ -15,7 +15,8 @@
     </div>
   </div>
   <div>
-    <p-editor #quillEditor [modules]="editorModules" [(ngModel)]="text" [style]="{ height: 'auto' }" (onTextChange)="onTextChange($event)"/>
+    <p-editor #quillEditor [modules]="editorModules" [(ngModel)]="text" [style]="{ height: 'auto' }"
+      (onTextChange)="onTextChange($event)" />
   </div>
 </div>
 

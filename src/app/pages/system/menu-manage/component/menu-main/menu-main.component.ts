@@ -8,7 +8,7 @@ import { CommonModule } from '@angular/common';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { Router } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 
 
 export interface menuModel {
@@ -50,21 +50,11 @@ export const ELEMENT_DATA: menuModel[] = [
   { sort: 5, name: '品牌介紹', isEdit: false, subList: [] },
   { sort: 6, name: '活動展期', isEdit: false, subList: [] },
 ];
-
 @Component({
-  selector: 'app-menu-manage',
-  imports: [
-    CommonModule,
-    MatFormFieldModule,
-    FormsModule,
-    CdkDropList,
-    CdkDrag,
-    MatTableModule,
-    MatIconModule,
-    MatButtonModule,
-    MatInputModule],
-  templateUrl: './menu-manage.component.html',
-  styleUrl: './menu-manage.component.scss',
+  selector: 'app-menu-main',
+  imports: [CommonModule, MatFormFieldModule, FormsModule, CdkDropList, CdkDrag, MatTableModule, MatIconModule, MatButtonModule, MatInputModule],
+  templateUrl: './menu-main.component.html',
+  styleUrl: './menu-main.component.scss',
   animations: [
     trigger('detailExpand', [
       state('collapsed', style({ height: '0px', minHeight: '0' })),
@@ -74,7 +64,7 @@ export const ELEMENT_DATA: menuModel[] = [
   ],
   standalone: true
 })
-export class MenuManageComponent {
+export class MenuMainComponent {
   @ViewChild('table', { static: true }) table!: MatTable<menuModel>;
   @ViewChildren(MatTable) subTables!: QueryList<MatTable<subModel>>;
   router = inject(Router);
@@ -116,7 +106,7 @@ export class MenuManageComponent {
     data.isEdit = !data.isEdit;
   }
   onOpenPage() {
-    this.router.navigate(['/pageManage']);
+    this.router.navigate(['/menuManage/pageManage']);
   }
   onDelete(data: menuModel) {
 

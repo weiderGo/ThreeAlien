@@ -7,9 +7,8 @@ export interface Breadcrumb {
   label: string;
   url: string;
 }
-
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class BreadcrumbService {
   private breadcrumbsSubject = new BehaviorSubject<Breadcrumb[]>([]);
@@ -22,28 +21,27 @@ export class BreadcrumbService {
         distinctUntilChanged()
       )
       .subscribe(() => {
-        this.updateBreadcrumbs();
+        const breadcrumbs: Breadcrumb[] = [];
+        this.buildBreadcrumbs(this.activatedRoute.root, '', breadcrumbs);
+        this.breadcrumbsSubject.next(breadcrumbs);
       });
   }
 
-  private updateBreadcrumbs() {
-    const breadcrumbs: Breadcrumb[] = [];
-    let route = this.activatedRoute.root;
-    let url = '';
+  private buildBreadcrumbs(route: ActivatedRoute, path: string, breadcrumbs: Breadcrumb[]) {
+    const children: ActivatedRoute[] = route.children;
 
-    while (route.firstChild) {
-      route = route.firstChild;
-      if (route.snapshot.data['title']) {
-        const routeURL: string = route.snapshot.url
-          .map((segment) => segment.path)
-          .join('/');
-        url += `/${routeURL}`;
-        breadcrumbs.push({
-          label: route.snapshot.data['title'],
-          url: url,
-        });
+    for (const child of children) {
+      const routeURL = child.snapshot.url.map(segment => segment.path).join('/');
+      if (routeURL) {
+        path += `/${routeURL}`;
       }
+
+      const label = child.snapshot.data['title'];
+      if (label) {
+        breadcrumbs.push({ label, url: path });
+      }
+
+      this.buildBreadcrumbs(child, path, breadcrumbs); // 遞迴繼續處理子路由
     }
-    this.breadcrumbsSubject.next(breadcrumbs);
   }
 }

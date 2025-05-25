@@ -1,0 +1,34 @@
+.file-manager {
+  .folders {
+    display: grid;
+    gap: 1rem;
+  }
+  .folder {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    background: #fff;
+    .folder-header {
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      h3 { margin: 0 1rem 0 0; }
+      button { margin-left: 0.5rem; }
+    }
+    .folder-content {
+      margin-top: 0.5rem;
+    }
+    .images {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      .image {
+        width: 150px;
+        img { width: 100%; }
+        button { margin-top: 0.5rem; }
+      }
+    }
+  }
+}

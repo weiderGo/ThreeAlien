@@ -1,0 +1,24 @@
+<div class="file-manager">
+  <div style="margin-bottom: 1rem;">
+    <button mat-raised-button color="primary" (click)="addFolder()">新增資料夾</button>
+  </div>
+  <div class="folders">
+    <div *ngFor="let folder of folders" class="folder">
+      <div class="folder-header" (click)="toggleExpand(folder)">
+        <span class="caret">{{ folder.isExpanded ? '▼' : '▶' }}</span>
+        <h3>{{ folder.fileName }}</h3>
+        <button mat-button color="primary" (click)="editFolderName(folder, $event)">編輯名稱</button>
+        <button mat-button color="accent" (click)="addImage(folder, $event)">新增圖片</button>
+      </div>
+      <div class="folder-content" *ngIf="folder.isExpanded">
+        <div class="images">
+          <div *ngFor="let img of folder.data" class="image">
+            <img [src]="'data:image/png;base64,' + img.imageBase64" [alt]="img.alt">
+            <p>{{ img.imgName }}</p>
+            <button mat-button (click)="editImage(img)">編輯</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

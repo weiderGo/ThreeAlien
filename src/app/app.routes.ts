@@ -17,13 +17,26 @@ export const routes: Routes = [
       },
       {
         path: "menuManage",
-        loadComponent: () => import('./pages/system/menu-manage/menu-manage.component').then(mod => mod.MenuManageComponent),
-        data: { title: "選單設定" },
+        loadComponent: () => import('./pages/system/menu-manage/component/menu-manage.component').then(mod => mod.MenuManageComponent),
+        data: { title: "選單管理" },
+        children: [
+          {
+            path: '',
+            pathMatch: 'full',
+            data: { title: '' },
+            loadComponent: () => import('./pages/system/menu-manage/component/menu-main/menu-main.component').then(m => m.MenuMainComponent),
+          },
+          {
+            path: 'pageManage',
+            data: { title: '內頁管理' },
+            loadComponent: () => import('./pages/system/menu-manage/component/page-manage/page-manage.component').then(m => m.PageManageComponent)
+          }
+        ]
       },
       {
-        path: "pageManage",
-        loadComponent: () => import('./pages/system/menu-manage/component/page-manage/page-manage.component').then(mod => mod.PageManageComponent),
-        data: { title: "內頁管理" },
+        path: "imageManage",
+        loadComponent: () => import('./pages/system/image-manage/component/image-manage.component').then(mod => mod.ImageManageComponent),
+        data: { title: "圖片管理" }
       },
       {
         path: "**",
