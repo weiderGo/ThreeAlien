@@ -1,25 +1,90 @@
-<div class="upload-container">
-  <div class="upload-box">
-    <div class="icon">
-      <div><mat-icon>image</mat-icon></div>
-      <div style="padding-left: 5px;">圖片</div>
+<div class="module-manage">
+  <!-- 新增版型群組的按鈕 -->
+  <div style="margin-bottom: 16px;display: flex;justify-content: flex-end;">
+    <div>
+      <mat-label>選擇版型</mat-label>
+      <mat-form-field appearance="fill" style="width: 200px; margin-right: 16px;">
+        <mat-select #layoutSelect>
+          <mat-option *ngFor="let layout of layouts" [value]="layout.value">
+            {{ layout.label }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
     </div>
-
-    <label class="upload-button">
-      上傳
-      <input type="file" accept=".jpg,.jpeg,.png" (change)="onFileChange($event)" hidden />
-    </label>
-
-    <div class="filename">
-      {{ selectedFileName || '尚無檔案' }}
-    </div>
+    <button mat-raised-button color="primary" (click)="addLayoutGroup(layoutSelect.value)">新增版型區塊</button>
   </div>
-  <div>
-    <p-editor #quillEditor [modules]="editorModules" [(ngModel)]="text" [style]="{ height: 'auto' }"
-      (onTextChange)="onTextChange($event)" />
+
+  <!-- 顯示每個版型群組 -->
+  <div *ngFor="let group of layoutGroups; let groupIndex = index" class="layout-group">
+    <div class="group-header">
+      <div>
+        <h3>{{ getLayoutLabel(group.type) }}</h3>
+      </div>
+      <div style="display: flex;">
+        <button mat-mini-fab color="primary" (click)="addBlockToGroup(groupIndex)">
+          <mat-icon>add</mat-icon>
+        </button>
+        <button mat-mini-fab color="warn" (click)="removeLayoutGroup(groupIndex)" style="margin-left: 8px;">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+    </div>
+
+    <!-- 該群組內的所有區塊 -->
+    <div class="blocks-container">
+      <div *ngFor="let block of group.data; let blockIndex = index" class="block-item">
+        <div class="block-content" [ngSwitch]="group.type">
+          <!-- 左圖右文 -->
+          <div *ngSwitchCase="'LIRT'" class="layout left-image-right-text">
+            <div class="image-section">
+              <img [src]="block.imageUrl" *ngIf="block.imageUrl" class="block-img" />
+              <input type="file" (change)="onFileChange($event, block)" accept="image/*" />
+            </div>
+            <div class="text-section">
+              <p-editor [(ngModel)]="block.text" [modules]="editorModules"></p-editor>
+            </div>
+          </div>
+
+          <!-- 右圖左文 -->
+          <div *ngSwitchCase="'RILT'" class="layout right-image-left-text">
+            <div class="image-section">
+              <img [src]="block.imageUrl" *ngIf="block.imageUrl" class="block-img" />
+              <input type="file" (change)="onFileChange($event, block)" accept="image/*" />
+            </div>
+            <div class="text-section">
+              <p-editor [(ngModel)]="block.text" [modules]="editorModules"></p-editor>
+            </div>
+          </div>
+
+          <!-- 上圖下文 -->
+          <div *ngSwitchCase="'TIBT'" class="layout top-image-bottom-text">
+            <div class="image-section">
+              <img [src]="block.imageUrl" *ngIf="block.imageUrl" class="block-img" />
+              <input type="file" (change)="onFileChange($event, block)" accept="image/*" />
+            </div>
+            <div class="text-section">
+              <p-editor [(ngModel)]="block.text" [modules]="editorModules"></p-editor>
+            </div>
+          </div>
+
+          <!-- 下圖上文 -->
+          <div *ngSwitchCase="'BITT'" class="layout bottom-image-top-text">
+            <div class="image-section">
+              <img [src]="block.imageUrl" *ngIf="block.imageUrl" class="block-img" />
+              <input type="file" (change)="onFileChange($event, block)" accept="image/*" />
+            </div>
+            <div class="text-section">
+              <p-editor [(ngModel)]="block.text" [modules]="editorModules"></p-editor>
+            </div>
+          </div>
+        </div>
+
+        <button mat-mini-fab color="warn" (click)="removeBlockFromGroup(groupIndex, blockIndex)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+    </div>
+
+    <mat-divider style="margin: 20px 0;"></mat-divider>
   </div>
 </div>
-
-
-<button (click)="test()">55</button>
-<div [innerHTML]="safeText"></div>

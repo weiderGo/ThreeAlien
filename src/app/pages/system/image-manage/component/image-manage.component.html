@@ -1,21 +1,55 @@
 <div class="file-manager">
-  <div style="margin-bottom: 1rem;">
-    <button mat-raised-button color="primary" (click)="addFolder()">新增資料夾</button>
+  <div style="display: flex; justify-content: flex-end;padding-bottom: 8px;">
+    <button mat-flat-button color="primary" (click)="addFolder()">
+      新增資料夾
+    </button>
   </div>
   <div class="folders">
-    <div *ngFor="let folder of folders" class="folder">
+    <div *ngFor="let folder of folders">
       <div class="folder-header" (click)="toggleExpand(folder)">
-        <span class="caret">{{ folder.isExpanded ? '▼' : '▶' }}</span>
-        <h3>{{ folder.fileName }}</h3>
-        <button mat-button color="primary" (click)="editFolderName(folder, $event)">編輯名稱</button>
-        <button mat-button color="accent" (click)="addImage(folder, $event)">新增圖片</button>
+        <div class="folder-title">
+          <mat-icon style="margin-right: 5px;">
+            {{ folder.isExpanded ? 'folder_open' : 'folder' }}
+          </mat-icon>
+          <mat-form-field appearance="outline" *ngIf="folder.isEdit">
+            <input matInput [(ngModel)]="folder.fileName" />
+          </mat-form-field>
+          <h3 *ngIf="!folder.isEdit">{{ folder.fileName }}</h3>
+        </div>
+        <div>
+          <button mat-mini-fab color="primary" (click)="editFolderName(folder, $event)" *ngIf="!folder.isEdit">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-mini-fab color="primary" (click)="editFolderName(folder, $event)" *ngIf="!folder.isEdit">
+            <mat-icon>delete</mat-icon>
+          </button>
+          <button mat-mini-fab color="primary" (click)="saveFolderName(folder, $event)" *ngIf="folder.isEdit">
+            <mat-icon>done</mat-icon>
+          </button>
+          <button mat-mini-fab color="warn" (click)="onCancel(folder, $event)" *ngIf="folder.isEdit">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
       </div>
       <div class="folder-content" *ngIf="folder.isExpanded">
         <div class="images">
           <div *ngFor="let img of folder.data" class="image">
-            <img [src]="'data:image/png;base64,' + img.imageBase64" [alt]="img.alt">
+            <img [src]="'data:image/png;base64,' + img.imageBase64" [alt]="img.alt" width="250" height="250">
             <p>{{ img.imgName }}</p>
-            <button mat-button (click)="editImage(img)">編輯</button>
+            <div class="iconBtn">
+              <button mat-mini-fab color="primary" (click)="editImage(img)" class="icon">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button mat-mini-fab color="primary" class="icon">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+          </div>
+          <div class="add-image-btn" *ngIf="!folder.isEdit">
+            <button mat-fab extended color="accent" (click)="addImage(folder, $event)">
+               <span>新增圖片</span>
+              <mat-icon>add_photo_alternate</mat-icon>
+            </button>
           </div>
         </div>
       </div>

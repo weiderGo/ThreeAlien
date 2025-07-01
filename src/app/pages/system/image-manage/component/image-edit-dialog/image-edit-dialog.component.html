@@ -1,19 +1,37 @@
-<h2 mat-dialog-title>編輯圖片</h2>
+<div class="dialog-header">
+  <div>編輯圖片</div>
+  <div>
+    <button mat-icon-button (click)="dialogRef.close(null)">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+</div>
 <mat-dialog-content>
-  <mat-form-field appearance="fill">
-    <mat-label>圖片名稱</mat-label>
-    <input matInput [(ngModel)]="tempImageName" />
-  </mat-form-field>
-  <mat-form-field appearance="fill">
-    <mat-label>ALT</mat-label>
-    <input matInput [(ngModel)]="tempAlt" />
-  </mat-form-field>
-  <div class="image-preview">
-    <img *ngIf="imageBase64" [src]="'data:image/png;base64,' + imageBase64" alt="預覽" width="150">
+  <div class="input-group">
+    <div>
+      <label class="required">圖片名稱</label>
+    </div>
+    <mat-form-field appearance="outline">
+      <input matInput [(ngModel)]="tempImageName" required />
+      <mat-error *ngIf="!tempImageName">圖片名稱為必填</mat-error>
+    </mat-form-field>
+  </div>
+  <div class="input-group">
+    <div>
+      <label class="required">ALT</label>
+    </div>
+    <mat-form-field appearance="outline">
+      <input matInput [(ngModel)]="tempAlt" required />
+      <mat-error *ngIf="!tempAlt">ALT為必填</mat-error>
+    </mat-form-field>
+  </div>
+  <div class="image-preview" *ngIf="imageBase64">
+    <p-image [src]="'data:image/png;base64,' + imageBase64" [preview]="true" [alt]="tempAlt" width="250">
+    </p-image>
   </div>
   <input type="file" (change)="onFileChange($event)" accept="image/*">
 </mat-dialog-content>
-<mat-dialog-actions align="end">
-  <button mat-button (click)="cancel()">取消</button>
-  <button mat-button (click)="save()" cdkFocusInitial>儲存</button>
+<mat-dialog-actions align="center">
+  <button mat-flat-button color="accent" (click)="dialogRef.close(null)">取消</button>
+  <button mat-flat-button color="primary" (click)="save()" cdkFocusInitial>儲存</button>
 </mat-dialog-actions>

@@ -1,0 +1,70 @@
+mat-dialog-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  min-width: 320px;
+}
+
+.dialog-header {
+  display: flex;
+  color: #262626;
+  height: 50px;
+  border-bottom: 1px solid #262626 !important;
+  margin-bottom: 10px;
+  font-weight: bold;
+  align-items: center;
+  justify-content: space-between;
+  margin: 12px;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+.image-preview {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 120px;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  padding: 12px 0;
+
+  img {
+    max-width: 260px;
+    max-height: 180px;
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    //background: #fff;
+    object-fit: contain;
+  }
+}
+
+input[type="file"] {
+  margin-top: 8px;
+}
+
+mat-dialog-actions {
+  margin-top: 8px;
+  border-top: 1px solid #262626 !important;
+  margin: 10px;
+  padding-top: 12px;
+
+  button+button {
+    margin-left: 50px;
+  }
+}
+filled-label-text-font{
+  font-size: 50px;
+}
+.input-group{
+  display: flex;
+  flex-direction: column;
+  .required{
+    padding-left: 3px;
+  }
+  .required::after {
+    content: "*";
+    color: red;
+  }
+}

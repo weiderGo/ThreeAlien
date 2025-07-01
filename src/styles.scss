@@ -42,7 +42,7 @@ $ThreeAlien-color: (
 
 $ThreeAlien-primary: mat.m2-define-palette($ThreeAlien-color, 700);
 $ThreeAlien-accent: mat.m2-define-palette($ThreeAlien-color);
-$ThreeAlien-warn: mat.m2-define-palette($ThreeAlien-color,900);
+$ThreeAlien-warn: mat.m2-define-palette($ThreeAlien-color, 900);
 $ThreeAlien-theme: mat.m2-define-light-theme((color: (primary: $ThreeAlien-primary,
         accent: $ThreeAlien-accent,
         warn: $ThreeAlien-warn,
@@ -53,6 +53,14 @@ $ThreeAlien-theme: mat.m2-define-light-theme((color: (primary: $ThreeAlien-prima
 
 :root {
   @include mat.all-component-themes($ThreeAlien-theme);
+  // @include mat.form-field-overrides((
+  //     filled-container-color: transparent,
+  //     filled-label-text-color: #7b8a99,
+  //     filled-active-indicator-color: transparent,
+  //     filled-hover-active-indicator-color: transparent,
+  //     filled-disabled-container-color: transparent,
+  //     filled-container-shape: 0px,
+  //   ));
 }
 
 body {
@@ -62,10 +70,189 @@ body {
   font-size: 18px;
   letter-spacing: 2px;
 }
+
 .p-editor .p-editor-toolbar {
   display: none !important;
 }
+
 .ql-toolbar.ql-snow {
-  background-color: var(--p-editor-content-background);
+  background-color: #262626;
   border: 1px solid #5f5f5f;
+  border-bottom: none;
+  border-radius: 4px 4px 0 0;
+}
+
+/* --- Quill Editor 深色主題樣式 --- */
+
+/* 1. 工具列圖示與文字顏色 */
+.ql-snow.ql-toolbar button .ql-stroke,
+.ql-snow .ql-toolbar button .ql-stroke,
+.ql-snow .ql-picker-label svg .ql-stroke {
+  stroke: #e0e0e0; /* 圖示描邊的顏色 */
+}
+
+.ql-snow.ql-toolbar button .ql-fill,
+.ql-snow .ql-toolbar button .ql-fill {
+  fill: #e0e0e0; /* 實心圖示的顏色 */
+}
+
+.ql-snow .ql-picker-label {
+  color: #e0e0e0; /* 下拉選單中的文字顏色 (例如：字型、大小) */
+}
+
+/* 2. 工具列項目在滑鼠懸停或選中時的顏色 */
+.ql-snow.ql-toolbar button:hover,
+.ql-snow .ql-toolbar .ql-picker-label:hover,
+.ql-snow.ql-toolbar button.ql-active,
+.ql-snow .ql-toolbar .ql-picker-label.ql-active {
+  color: #ffffff; /* 滑鼠懸停或選中時更亮的顏色 */
+}
+
+.ql-toolbar.ql-snow .ql-picker.ql-expanded .ql-picker-options {
+    border-color: #ccc;
+    background-color: #262626;
+}
+
+.ql-snow.ql-toolbar button:hover .ql-stroke,
+.ql-snow .ql-toolbar .ql-picker-label:hover .ql-stroke,
+.ql-snow.ql-toolbar button.ql-active .ql-stroke,
+.ql-snow .ql-toolbar .ql-picker-label.ql-active .ql-stroke {
+  stroke: #ffffff;
+}
+
+/* 3. 下拉選單面板的樣式 */
+.ql-snow .ql-picker-options {
+  background-color: #353535;
+  border-color: #5f5f5f;
+  color: #e0e0e0;
+}
+
+/* 4. (建議) 讓編輯器內容區域也匹配深色主題 */
+.ql-container.ql-snow {
+  border: 1px solid #5f5f5f;
+  border-radius: 0 0 4px 4px;
+  color: #f0f0f0;
+}
+
+.mat-form-field-appearance-outline .mat-form-field-wrapper {
+    margin: none;
+}
+.mat-mdc-text-field-wrapper {
+  height: 40px !important;
+  background-color: #fff !important;
+  border-radius: 8px !important;
+  box-shadow: none !important;
+  border: 1.5px solid #e0e7ef !important;
+  transition: border-color 0.2s;
+  padding: 0 12px !important;
+  display: flex;
+  align-items: center;
+}
+
+.mdc-text-field {
+  align-items: center !important;
+  background: none !important;
+  box-shadow: none !important;
+}
+
+.mdc-text-field--filled:not(.mdc-text-field--disabled) {
+  height: 40px !important;
+  background-color: #fff !important;
+  border: 1.5px solid #5f5f5f !important;
+  border-radius: 8px !important;
+  box-shadow: none !important;
+  transition: border-color 0.2s;
+}
+
+.mdc-text-field--filled.mdc-text-field--focused:not(.mdc-text-field--disabled) {
+  border-color: #000000 !important;
+}
+
+.mat-mdc-form-field-focus-overlay {
+  background-color: transparent !important;
+}
+
+.mat-mdc-form-field-label {
+  color: #b0b8c1 !important;
+  font-size: 1rem !important;
+  font-weight: 500 !important;
+  top: 50% !important;
+  left: 12px !important;
+  transform: translateY(-50%) !important;
+  pointer-events: none;
+  transition: none !important;
+  background: none !important;
+  padding: 0 !important;
+}
+
+.mdc-text-field__input {
+  font-size: 1.08rem !important;
+  color: #222 !important;
+  background: none !important;
+  font-weight: 500 !important;
+  padding: 4px 0 !important;
+  border: none !important;
+  outline: none !important;
+}
+
+.mdc-line-ripple {
+  display: none !important;
+}
+.mat-mdc-form-field-hint-wrapper,
+.mat-mdc-form-field-error-wrapper {
+  padding: 0px !important;
+  font-size: 14px !important;
+  padding-left: 3px !important;
+}
+
+/* Quill Editor Custom Font Styles */
+/* 讓編輯器內容套用字型 */
+.ql-editor .ql-font-noto-sans-tc {
+  font-family: "Noto Sans TC", sans-serif;
+}
+
+/* 讓工具列的下拉選單顯示字型名稱與樣式 */
+.ql-snow .ql-picker.ql-font .ql-picker-item[data-value="noto-sans-tc"]::before,
+.ql-snow .ql-picker.ql-font .ql-picker-label[data-value="noto-sans-tc"]::before {
+  content: "思源黑體"; /* 在下拉選單中顯示的名稱 */
+  font-family: "Noto Sans TC", sans-serif; /* 讓選項本身也套用字型 */
+}
+
+/* For Microsoft JhengHei (微軟正黑體) */
+/* 讓編輯器內容套用字型 */
+.ql-editor .ql-font-microsoft-jhenghei {
+  font-family: "Microsoft JhengHei", "微軟正黑體", sans-serif;
+}
+
+/* 讓工具列的下拉選單顯示字型名稱與樣式 */
+.ql-snow .ql-picker.ql-font .ql-picker-item[data-value="microsoft-jhenghei"]::before,
+.ql-snow .ql-picker.ql-font .ql-picker-label[data-value="microsoft-jhenghei"]::before {
+  content: "微軟正黑體";
+  font-family: "Microsoft JhengHei", "微軟正黑體", sans-serif;
+}
+
+/* For DFKai-SB (標楷體) */
+/* 讓編輯器內容套用字型 */
+.ql-editor .ql-font-dfkai-sb {
+  font-family: "DFKai-SB", "標楷體", serif;
+}
+
+/* 讓工具列的下拉選單顯示字型名稱與樣式 */
+.ql-snow .ql-picker.ql-font .ql-picker-item[data-value="dfkai-sb"]::before,
+.ql-snow .ql-picker.ql-font .ql-picker-label[data-value="dfkai-sb"]::before {
+  content: "標楷體";
+  font-family: "DFKai-SB", "標楷體", serif;
+}
+
+/* For MingLiU (新細明體) */
+/* 讓編輯器內容套用字型 */
+.ql-editor .ql-font-mingliu {
+  font-family: "MingLiU", "新細明體", serif;
+}
+
+/* 讓工具列的下拉選單顯示字型名稱與樣式 */
+.ql-snow .ql-picker.ql-font .ql-picker-item[data-value="mingliu"]::before,
+.ql-snow .ql-picker.ql-font .ql-picker-label[data-value="mingliu"]::before {
+  content: "新細明體";
+  font-family: "MingLiU", "新細明體", serif;
 }

@@ -2,14 +2,19 @@ import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { ImageEditDialogComponent } from './image-edit-dialog/image-edit-dialog.component';
+import { MatCardModule } from '@angular/material/card';
+import { FormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 interface folderModle {
   fileId: number;
   fileName: string;
   isExpanded: boolean;
   data: ImageModle[];
+  isEdit: boolean;
 }
 interface ImageModle {
   imgId: number;
@@ -20,7 +25,7 @@ interface ImageModle {
 
 @Component({
   selector: 'app-image-manage',
-  imports: [MatIconModule, MatButtonModule, CommonModule],
+  imports: [MatIconModule, MatButtonModule, MatFormFieldModule, MatInputModule, CommonModule, MatCardModule, MatDialogModule, FormsModule],
   templateUrl: './image-manage.component.html',
   styleUrl: './image-manage.component.scss',
   standalone: true,
@@ -71,19 +76,26 @@ export class ImageManageComponent {
         fileId: Date.now(),
         fileName: folderName,
         isExpanded: true,
-        data: []
+        data: [],
+        isEdit: false
       };
       this.folders.push(newFolder);
     }
   }
 
   editFolderName(folder: folderModle, event: MouseEvent) {
+    folder.isEdit = !folder.isEdit;
     event.stopPropagation();
-    const newName = prompt('請輸入新的資料夾名稱', folder.fileName);
-    if (newName) {
-      folder.fileName = newName;
-    }
   }
+  saveFolderName(folder: folderModle, event: MouseEvent) {
+    folder.isEdit = !folder.isEdit;
+    event.stopPropagation();
+  }
+  onCancel(folder: folderModle, event: MouseEvent) {
+    folder.isEdit = false;
+    event.stopPropagation();
+  }
+
 
   addImage(folder: folderModle, event: MouseEvent) {
     event.stopPropagation();
@@ -116,20 +128,23 @@ const EXAMPLE_DATA: folderModle[] = [
   {
     fileId: 1,
     fileName: '活動一',
-    isExpanded: true,
+    isExpanded: false,
     data: [
       { imgId: 1, imgName: '促銷1-1', imageBase64: 'https://via.placeholder.com/150', alt: '這是圖片' },
       { imgId: 2, imgName: '促銷1-2', imageBase64: 'https://via.placeholder.com/150', alt: '這是圖片' },
-      { imgId: 3, imgName: '促銷1-3', imageBase64: 'https://via.placeholder.com/150', alt: '這是圖片' }
-    ]
+      { imgId: 3, imgName: '促銷1-3', imageBase64: 'https://via.placeholder.com/150', alt: '這是圖片' },
+      { imgId: 4, imgName: '促銷1-3', imageBase64: 'https://via.placeholder.com/150', alt: '這是圖片' }
+    ],
+    isEdit: false
   },
   {
     fileId: 2,
     fileName: '活動二',
-    isExpanded: true,
+    isExpanded: false,
     data: [
       { imgId: 4, imgName: '促銷1-1', imageBase64: 'https://via.placeholder.com/150', alt: '這是圖片' },
       { imgId: 5, imgName: '促銷1-2', imageBase64: 'https://via.placeholder.com/150', alt: '這是圖片' },
-    ]
+    ],
+    isEdit: false
   }
 ];
