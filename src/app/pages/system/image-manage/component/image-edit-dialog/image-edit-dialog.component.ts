@@ -16,41 +16,46 @@ import { Image } from 'primeng/image';
   styleUrls: ['./image-edit-dialog.component.scss']
 })
 export class ImageEditDialogComponent {
-  tempImageName: string;
-  tempAlt: string;
-  imageBase64: string = '';
+  tempImageName: string = '';
+  tempAlt: string = '';
+  uploadedFileName: string = ''; // 實際上傳後的檔名
 
-  constructor(
-    public dialogRef: MatDialogRef<ImageEditDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any
-  ) {
-    this.tempImageName = data.imgName;
-    this.tempAlt = data.alt;
-    this.imageBase64 = data.imageBase64 || '';
+  constructor(public dialogRef: MatDialogRef<ImageEditDialogComponent>) {}
+
+  // 組合圖片路徑
+  getImageUrl(fileName: string): string {
+    console.log(fileName)
+    console.log(fileName ? `/assets/uploads/${fileName}` : '');
+    return fileName ? `/assets/uploads/${fileName}` : '';
   }
 
+  // 上傳圖片
   onFileChange(event: any) {
     const file = event.target.files[0];
+    console.log(file);
     if (file) {
-      const reader = new FileReader();
-      reader.onload = (e: any) => {
-        this.imageBase64 = e.target.result.split(',')[1];
-      };
-
-      reader.readAsDataURL(file);
+      // === 實際應用時請呼叫後端API上傳 ===
+      // 這裡僅模擬上傳，直接用檔名
+      // 實際應用應該是API回傳檔名
+      this.uploadedFileName = file.name;
+      this.tempImageName = file.name;
+      // 若要即時預覽可用 FileReader 讀 base64
     }
   }
 
-  save() {
-     console.log('File selected:', this.imageBase64);
-    this.dialogRef.close({
-      imgName: this.tempImageName,
-      alt: this.tempAlt,
-      imageBase64: this.imageBase64
-    });
+  // 刪除圖片
+  deleteImage() {
+    // === 實際應用時請呼叫後端API刪除檔案 ===
+    this.uploadedFileName = '';
+    this.tempImageName = '';
   }
 
-  cancel() {
-    this.dialogRef.close();
+  // 儲存
+  save() {
+    if (!this.uploadedFileName || !this.tempImageName || !this.tempAlt) return;
+    this.dialogRef.close({
+      fileName: this.uploadedFileName,
+      alt: this.tempAlt
+    });
   }
 }

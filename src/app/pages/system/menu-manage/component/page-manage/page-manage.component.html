@@ -17,17 +17,13 @@
   <!-- 顯示每個版型群組 -->
   <div *ngFor="let group of layoutGroups; let groupIndex = index" class="layout-group">
     <div class="group-header">
-      <div>
-        <h3>{{ getLayoutLabel(group.type) }}</h3>
-      </div>
-      <div style="display: flex;">
-        <button mat-mini-fab color="primary" (click)="addBlockToGroup(groupIndex)">
-          <mat-icon>add</mat-icon>
-        </button>
-        <button mat-mini-fab color="warn" (click)="removeLayoutGroup(groupIndex)" style="margin-left: 8px;">
-          <mat-icon>delete</mat-icon>
-        </button>
-      </div>
+      <h3>{{ getLayoutLabel(group.type) }}</h3>
+      <button mat-mini-fab color="primary" (click)="addBlockToGroup(groupIndex)">
+        <mat-icon>add</mat-icon>
+      </button>
+      <button mat-mini-fab color="warn" (click)="removeLayoutGroup(groupIndex)">
+        <mat-icon>delete</mat-icon>
+      </button>
     </div>
 
     <!-- 該群組內的所有區塊 -->
@@ -36,50 +32,51 @@
         <div class="block-content" [ngSwitch]="group.type">
           <!-- 左圖右文 -->
           <div *ngSwitchCase="'LIRT'" class="layout left-image-right-text">
-            <div class="image-section">
+            <!-- <div class="image-section">
               <img [src]="block.imageUrl" *ngIf="block.imageUrl" class="block-img" />
               <input type="file" (change)="onFileChange($event, block)" accept="image/*" />
-            </div>
+            </div> -->
+            <button mat-stroked-button color="primary" (click)="openImageManager(block)">
+              <mat-icon>image</mat-icon> 選擇圖片
+            </button>
             <div class="text-section">
               <p-editor [(ngModel)]="block.text" [modules]="editorModules"></p-editor>
             </div>
           </div>
 
           <!-- 右圖左文 -->
-          <div *ngSwitchCase="'RILT'" class="layout right-image-left-text">
-            <div class="image-section">
-              <img [src]="block.imageUrl" *ngIf="block.imageUrl" class="block-img" />
-              <input type="file" (change)="onFileChange($event, block)" accept="image/*" />
-            </div>
+          <div *ngSwitchCase="'RILT'" class="layout left-image-right-text">
+            <button mat-stroked-button color="primary" (click)="openImageManager(block)">
+              <mat-icon>image</mat-icon> 選擇圖片
+            </button>
             <div class="text-section">
               <p-editor [(ngModel)]="block.text" [modules]="editorModules"></p-editor>
             </div>
           </div>
 
           <!-- 上圖下文 -->
-          <div *ngSwitchCase="'TIBT'" class="layout top-image-bottom-text">
-            <div class="image-section">
-              <img [src]="block.imageUrl" *ngIf="block.imageUrl" class="block-img" />
-              <input type="file" (change)="onFileChange($event, block)" accept="image/*" />
-            </div>
+          <div *ngSwitchCase="'TIBT'" class="layout left-image-right-text">
+            <button mat-stroked-button color="primary" (click)="openImageManager(block)">
+              <mat-icon>image</mat-icon> 選擇圖片
+            </button>
             <div class="text-section">
               <p-editor [(ngModel)]="block.text" [modules]="editorModules"></p-editor>
             </div>
           </div>
 
           <!-- 下圖上文 -->
-          <div *ngSwitchCase="'BITT'" class="layout bottom-image-top-text">
-            <div class="image-section">
-              <img [src]="block.imageUrl" *ngIf="block.imageUrl" class="block-img" />
-              <input type="file" (change)="onFileChange($event, block)" accept="image/*" />
-            </div>
+          <div *ngSwitchCase="'BITT'" class="layout left-image-right-text">
+            <button mat-stroked-button color="primary" (click)="openImageManager(block)">
+              <mat-icon>image</mat-icon> 選擇圖片
+            </button>
             <div class="text-section">
               <p-editor [(ngModel)]="block.text" [modules]="editorModules"></p-editor>
             </div>
           </div>
         </div>
 
-        <button mat-mini-fab color="warn" (click)="removeBlockFromGroup(groupIndex, blockIndex)">
+        <button mat-mini-fab color="warn" (click)="removeBlockFromGroup(groupIndex, blockIndex)"
+          style="float: right;    margin-top: 10px;">
           <mat-icon>delete</mat-icon>
         </button>
       </div>

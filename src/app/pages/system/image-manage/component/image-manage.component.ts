@@ -1,8 +1,8 @@
-import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Inject, Input, OnInit, Optional, Output, ViewChild } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { ImageEditDialogComponent } from './image-edit-dialog/image-edit-dialog.component';
 import { MatCardModule } from '@angular/material/card';
 import { FormsModule } from '@angular/forms';
@@ -32,11 +32,17 @@ interface ImageModle {
 })
 
 
-export class ImageManageComponent {
+export class ImageManageComponent implements OnInit{
   folders: folderModle[] = EXAMPLE_DATA;
   @Output() onSave = new EventEmitter<any>();
 
-  constructor(private dialog: MatDialog) { }
+  constructor(
+    private readonly dialog: MatDialog,
+    @Optional() @Inject(MAT_DIALOG_DATA) public inputData: any
+  ) { }
+  ngOnInit(): void {
+    console.log(this.inputData);
+  }
 
   toggleExpand(folder: folderModle) {
     folder.isExpanded = !folder.isExpanded;
@@ -69,6 +75,7 @@ export class ImageManageComponent {
       reader.readAsDataURL(file);
     }
   }
+
   addFolder() {
     const folderName = prompt('請輸入資料夾名稱');
     if (folderName) {

@@ -8,6 +8,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSelectModule } from '@angular/material/select';
 import { EditorModule } from 'primeng/editor';
+import { ImageManageComponent } from '../../../image-manage/component/image-manage.component';
+import { MatDialog } from '@angular/material/dialog';
 
 // 這份字型列表是純資料，可以保留在模組頂層
 const fontNames = ['serif', 'monospace', 'noto-sans-tc', 'microsoft-jhenghei', 'dfkai-sb', 'mingliu'];
@@ -27,11 +29,12 @@ interface LayoutGroup {
   standalone: true,
   imports: [
     FormsModule, MatFormFieldModule, MatSelectModule, MatButtonModule,
-    MatIconModule, MatDividerModule, CommonModule, MatMenuModule, EditorModule
+    MatIconModule, MatDividerModule, CommonModule, MatMenuModule, EditorModule, ImageManageComponent
   ]
 })
 export class PageManageComponent implements OnInit {
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) { }
+
+  constructor(@Inject(PLATFORM_ID) private platformId: Object, public dialog: MatDialog) { }
 
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
@@ -62,10 +65,8 @@ export class PageManageComponent implements OnInit {
     this.editorModules = {
       toolbar: [
         ['bold', 'italic', 'underline', 'strike'],
-        ['blockquote',],
-        [{ 'header': 1 }, { 'header': 2 }],
-        [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-        [{ 'indent': '-1' }, { 'indent': '+1' }],
+        ['blockquote'],
+        [{ 'list': 'ordered' }],
         [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
         // 將我們的自訂字型加入工具列
         [{ 'font': fontNames }],
@@ -103,5 +104,27 @@ export class PageManageComponent implements OnInit {
       reader.onload = (e: any) => { block.imageUrl = e.target.result; };
       reader.readAsDataURL(file);
     }
+  }
+  //  匯入 ImageManageComponent 並在  openImageManager  中使用
+  //  注意:  需要自行調整 ImageManageComponent 的輸出，確保能取得圖片資訊
+  openImageManager(block: any) {
+    //  這部分需要根據你的 ImageManageComponent 調整
+    const dialogRef = this.dialog.open(ImageManageComponent, {
+      width: '80%',
+      height: '75%',
+      data: {
+        isCheck:true
+      } //  可能需要傳入一些參數到圖片管理元件
+    });
+
+    dialogRef.afterClosed().subscribe((result: any) => {
+      if (result) {
+        //  假設你的圖片管理元件回傳的是一個包含 imageUrl 和 imageName 的物件
+        block.imageUrl = result.imageBase64; //  更新圖片 URL
+        //  如果需要儲存圖片名稱或 ID
+        // block.imageName = result.imgName;
+        // block.imageId = result.imgId;
+      }
+    });
   }
 }

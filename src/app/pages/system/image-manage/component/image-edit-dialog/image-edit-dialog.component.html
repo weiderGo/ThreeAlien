@@ -25,13 +25,20 @@
       <mat-error *ngIf="!tempAlt">ALT為必填</mat-error>
     </mat-form-field>
   </div>
-  <div class="image-preview" *ngIf="imageBase64">
-    <p-image [src]="'data:image/png;base64,' + imageBase64" [preview]="true" [alt]="tempAlt" width="250">
-    </p-image>
+
+  <!-- 圖片預覽與操作 -->
+  <div class="image-preview" *ngIf="uploadedFileName">
+    <img [src]="getImageUrl(uploadedFileName)" [alt]="tempAlt" width="250" />
+    <button mat-icon-button color="warn" (click)="deleteImage()" title="刪除圖片">
+      <mat-icon>delete</mat-icon>
+    </button>
   </div>
-  <input type="file" (change)="onFileChange($event)" accept="image/*">
+  <div>{{ getImageUrl(uploadedFileName) }}</div>
+  <!-- 上傳圖片 -->
+  <input type="file" (change)="onFileChange($event)" accept="image/*" />
+
 </mat-dialog-content>
 <mat-dialog-actions align="center">
   <button mat-flat-button color="accent" (click)="dialogRef.close(null)">取消</button>
-  <button mat-flat-button color="primary" (click)="save()" cdkFocusInitial>儲存</button>
+  <button mat-flat-button color="primary" (click)="save()" cdkFocusInitial [disabled]="!uploadedFileName || !tempImageName || !tempAlt">儲存</button>
 </mat-dialog-actions>
