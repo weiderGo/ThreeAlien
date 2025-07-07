@@ -105,7 +105,7 @@ body {
 .ql-snow .ql-toolbar .ql-picker-label:hover,
 .ql-snow.ql-toolbar button.ql-active,
 .ql-snow .ql-toolbar .ql-picker-label.ql-active {
-  color: #ffffff; /* 滑鼠懸停或選中時更亮的顏色 */
+  color: #ffff; /* 滑鼠懸停或選中時更亮的顏色 */
 }
 
 .ql-toolbar.ql-snow .ql-picker.ql-expanded .ql-picker-options {
@@ -255,4 +255,72 @@ body {
 .ql-snow .ql-picker.ql-font .ql-picker-label[data-value="mingliu"]::before {
   content: "新細明體";
   font-family: "MingLiU", "新細明體", serif;
+}
+ .ql-toolbar .ql-header .ql-picker-label,
+ .ql-toolbar .ql-header .ql-picker-options {
+  min-width: 120px !important;
+}
+
+// Quill size 下拉選單自訂 px 樣式
+body .ql-snow .ql-picker.ql-size .ql-picker-label::before,
+body .ql-snow .ql-picker.ql-size .ql-picker-item::before {
+  content: attr(data-value) !important;
+  font-size: 14px !important;
+}
+body .ql-snow .ql-picker.ql-size .ql-picker-item[data-value] {
+  font-size: 14px !important;
+}
+// 下拉選單最大高度與滾動條
+body .ql-snow .ql-picker.ql-size .ql-picker-options {
+  max-height: 220px;
+  overflow-y: auto;
+}
+
+body .ql-snow .ql-picker.ql-header .ql-picker-item[data-value="1"]::before {
+  content: '標題 1' !important;
+}
+body .ql-snow .ql-picker.ql-header .ql-picker-item[data-value="2"]::before {
+  content: '標題 2' !important;
+}
+body .ql-snow .ql-picker.ql-header .ql-picker-item[data-value="3"]::before {
+  content: '標題 3' !important;
+}
+body .ql-snow .ql-picker.ql-header .ql-picker-item[data-value="4"]::before {
+  content: '標題 4' !important;
+}
+body .ql-snow .ql-picker.ql-header .ql-picker-item[data-value="5"]::before {
+  content: '標題 5' !important;
+}
+body .ql-snow .ql-picker.ql-header .ql-picker-item[data-value="6"]::before {
+  content: '標題 6' !important;
+}
+body .ql-snow .ql-picker.ql-header .ql-picker-item[data-value="false"]::before,
+body .ql-snow .ql-picker.ql-header .ql-picker-item[data-value=false]::before,
+body .ql-snow .ql-picker.ql-header .ql-picker-item:not([data-value])::before,
+body .ql-snow .ql-picker.ql-header .ql-picker-item[data-value=""]::before {
+  content: '一般段落' !important;
+}
+body .ql-snow .ql-picker.ql-header .ql-picker-label[data-value="1"]::before {
+  content: '標題 1' !important;
+}
+body .ql-snow .ql-picker.ql-header .ql-picker-label[data-value="2"]::before {
+  content: '標題 2' !important;
+}
+body .ql-snow .ql-picker.ql-header .ql-picker-label[data-value="3"]::before {
+  content: '標題 3' !important;
+}
+body .ql-snow .ql-picker.ql-header .ql-picker-label[data-value="4"]::before {
+  content: '標題 4' !important;
+}
+body .ql-snow .ql-picker.ql-header .ql-picker-label[data-value="5"]::before {
+  content: '標題 5' !important;
+}
+body .ql-snow .ql-picker.ql-header .ql-picker-label[data-value="6"]::before {
+  content: '標題 6' !important;
+}
+body .ql-snow .ql-picker.ql-header .ql-picker-label[data-value="false"]::before,
+body .ql-snow .ql-picker.ql-header .ql-picker-label[data-value=false]::before,
+body .ql-snow .ql-picker.ql-header .ql-picker-label:not([data-value])::before,
+body .ql-snow .ql-picker.ql-header .ql-picker-label[data-value=""]::before {
+  content: '一般段落' !important;
 }

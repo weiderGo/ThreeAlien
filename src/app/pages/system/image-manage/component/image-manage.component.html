@@ -34,7 +34,12 @@
       <div class="folder-content" *ngIf="folder.isExpanded">
         <div class="images">
           <div *ngFor="let img of folder.data" class="image">
-            <img [src]="'data:image/png;base64,' + img.imageBase64" [alt]="img.alt" width="250" height="250">
+            <div style="cursor: pointer;" (click)="selectImage(img)">
+              <img
+                [src]="img.imageBase64.startsWith('data:') ? img.imageBase64 : img.imageBase64.startsWith('assets/') ? '/' + img.imageBase64 : img.imageBase64"
+                [alt]="img.alt" width="250" height="250" />
+            </div>
+
             <p>{{ img.imgName }}</p>
             <div class="iconBtn">
               <button mat-mini-fab color="primary" (click)="editImage(img)" class="icon">
@@ -47,7 +52,7 @@
           </div>
           <div class="add-image-btn" *ngIf="!folder.isEdit">
             <button mat-fab extended color="accent" (click)="addImage(folder, $event)">
-               <span>新增圖片</span>
+              <span>新增圖片</span>
               <mat-icon>add_photo_alternate</mat-icon>
             </button>
           </div>

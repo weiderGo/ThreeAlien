@@ -10,9 +10,11 @@ import { MatSelectModule } from '@angular/material/select';
 import { EditorModule } from 'primeng/editor';
 import { ImageManageComponent } from '../../../image-manage/component/image-manage.component';
 import { MatDialog } from '@angular/material/dialog';
+import { PageBlockTemplateDialogComponent } from '../page-block-template-dialog/page-block-template-dialog.component';
+import { CarouselModule } from 'primeng/carousel';
 
 // 這份字型列表是純資料，可以保留在模組頂層
-const fontNames = ['serif', 'monospace', 'noto-sans-tc', 'microsoft-jhenghei', 'dfkai-sb', 'mingliu'];
+const fontNames = ['noto-sans-tc','serif', 'monospace',  'microsoft-jhenghei', 'dfkai-sb', 'mingliu'];
 interface Block {
   imageUrl?: string;
   imageId: string;
@@ -28,7 +30,7 @@ interface LayoutGroup {
   styleUrls: ['./page-manage.component.scss'],
   standalone: true,
   imports: [
-    FormsModule, MatFormFieldModule, MatSelectModule, MatButtonModule,
+    FormsModule, MatFormFieldModule, MatSelectModule, MatButtonModule,CarouselModule,
     MatIconModule, MatDividerModule, CommonModule, MatMenuModule, EditorModule, ImageManageComponent
   ]
 })
@@ -38,9 +40,12 @@ export class PageManageComponent implements OnInit {
 
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
-      // Quill.js 依賴瀏覽器 API (如 `document`)，因此只能在瀏覽器平台載入與執行
       import('quill').then(QuillModule => {
         const Quill = QuillModule.default;
+        const SizeStyle: any = Quill.import('attributors/style/size');
+        // 產生 2~72 的偶數 px
+        SizeStyle.whitelist = Array.from({ length: 36 }, (_, i) => `${(i + 1) * 2}px`);
+        Quill.register(SizeStyle, true);
         const Font: any = Quill.import('formats/font');
         Font.whitelist = fontNames;
         Quill.register(Font, true);
@@ -56,22 +61,41 @@ export class PageManageComponent implements OnInit {
     { value: 'TIBT', label: '上圖下文' },
     { value: 'BITT', label: '下圖上文' }
   ];
-  layoutGroups: any[] = [];
+  layoutGroups: LayoutGroup[] = [];
 
   // 定義 p-editor 的 modules
-  editorModules: any;
+  editorModules:any;
+  //純文字
+  editorOnlyText:any;
 
   initializeEditorModules() {
+    // 產生 2~72 的偶數 px
+    const sizeList = Array.from({ length: 36 }, (_, i) => `${(i + 1) * 2}px`);
     this.editorModules = {
       toolbar: [
         ['bold', 'italic', 'underline', 'strike'],
-        ['blockquote'],
-        [{ 'list': 'ordered' }],
+        ['blockquote', 'code-block'],
+        [{ 'header': 1 }, { 'header': 2 }],
+        [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+        [{ 'indent': '-1' }, { 'indent': '+1' }],
+        [{ 'direction': 'rtl' }],
+        [{ 'size': sizeList }],
         [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-        // 將我們的自訂字型加入工具列
         [{ 'font': fontNames }],
         [{ 'color': [] }, { 'background': [] }],
-        [{ 'align': [] }],]
+        [{ 'align': [] }],
+        ['link', 'image', 'video', 'formula'],
+        ['clean']
+      ]
+    };
+    this.editorOnlyText = {
+      toolbar: [
+        ['bold', 'italic', 'underline', 'strike'],
+        [{ 'size': sizeList }],
+        [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+        [{ 'font': fontNames }],
+        [{ 'color': [] }, { 'background': [] }],
+      ]
     };
   }
 
@@ -80,9 +104,22 @@ export class PageManageComponent implements OnInit {
     return layout ? layout.label : '未知版型';
   }
 
-  addLayoutGroup(type: string) {
-    if (!type) return;
-    this.layoutGroups.push({ type: type, data: [{ text: '', imageUrl: '' }] });
+  addLayoutGroup() {
+    this.dialog.open(PageBlockTemplateDialogComponent, {
+      width: '80%',
+      height: '360px',
+      data: { layouts: this.layouts }
+    }).afterClosed().subscribe(res => {
+      if (res) {
+        this.layoutGroups.push({
+          type: res.value,
+          data: [{
+            text: '', imageUrl: '',
+            imageId: ''
+          }]
+        });
+      }
+    });
   }
 
   removeLayoutGroup(groupIndex: number) {
@@ -90,7 +127,10 @@ export class PageManageComponent implements OnInit {
   }
 
   addBlockToGroup(groupIndex: number) {
-    this.layoutGroups[groupIndex].data.push({ text: '', imageUrl: '' });
+    this.layoutGroups[groupIndex].data.push({
+      text: '', imageUrl: '',
+      imageId: ''
+    });
   }
 
   removeBlockFromGroup(groupIndex: number, blockIndex: number) {
@@ -105,7 +145,9 @@ export class PageManageComponent implements OnInit {
       reader.readAsDataURL(file);
     }
   }
-  //  匯入 ImageManageComponent 並在  openImageManager  中使用
+  addCarouselImage(data:any){
+    console.log(data);
+  }
   //  注意:  需要自行調整 ImageManageComponent 的輸出，確保能取得圖片資訊
   openImageManager(block: any) {
     //  這部分需要根據你的 ImageManageComponent 調整
@@ -113,7 +155,7 @@ export class PageManageComponent implements OnInit {
       width: '80%',
       height: '75%',
       data: {
-        isCheck:true
+        isCheck: true
       } //  可能需要傳入一些參數到圖片管理元件
     });
 

@@ -37,6 +37,7 @@ export class ImageManageComponent implements OnInit{
   @Output() onSave = new EventEmitter<any>();
 
   constructor(
+    private dialogRef: MatDialogRef<ImageManageComponent>,
     private readonly dialog: MatDialog,
     @Optional() @Inject(MAT_DIALOG_DATA) public inputData: any
   ) { }
@@ -123,10 +124,16 @@ export class ImageManageComponent implements OnInit{
     });
   }
 
-  saveChanges() {
-    // this.http.post('你的API網址', this.folders).subscribe(() => {
-    //   this.onSave.emit();
-    // });
+   selectImage(img: ImageModle) {
+    console.log(img);
+    if (this.inputData?.isCheck) {
+      // 關閉 dialog 並回傳圖片資訊
+      this.dialogRef.close({
+        imageBase64: img.imageBase64,
+        imgName: img.imgName,
+        imgId: img.imgId
+      });
+    }
   }
 
 }
@@ -137,10 +144,10 @@ const EXAMPLE_DATA: folderModle[] = [
     fileName: '活動一',
     isExpanded: false,
     data: [
-      { imgId: 1, imgName: '促銷1-1', imageBase64: 'https://via.placeholder.com/150', alt: '這是圖片' },
-      { imgId: 2, imgName: '促銷1-2', imageBase64: 'https://via.placeholder.com/150', alt: '這是圖片' },
-      { imgId: 3, imgName: '促銷1-3', imageBase64: 'https://via.placeholder.com/150', alt: '這是圖片' },
-      { imgId: 4, imgName: '促銷1-3', imageBase64: 'https://via.placeholder.com/150', alt: '這是圖片' }
+      { imgId: 1, imgName: '促銷1-1', imageBase64: 'assets/uploads/head.jpg', alt: '這是圖片' },
+      { imgId: 2, imgName: '促銷1-2', imageBase64: 'assets/uploads/head2.jpg', alt: '這是圖片' },
+      { imgId: 3, imgName: '促銷1-3', imageBase64: 'assets/uploads/head3.jpg', alt: '這是圖片' },
+      { imgId: 4, imgName: '促銷1-3', imageBase64: 'assets/uploads/head.jpg', alt: '這是圖片' }
     ],
     isEdit: false
   },
@@ -149,8 +156,8 @@ const EXAMPLE_DATA: folderModle[] = [
     fileName: '活動二',
     isExpanded: false,
     data: [
-      { imgId: 4, imgName: '促銷1-1', imageBase64: 'https://via.placeholder.com/150', alt: '這是圖片' },
-      { imgId: 5, imgName: '促銷1-2', imageBase64: 'https://via.placeholder.com/150', alt: '這是圖片' },
+      { imgId: 4, imgName: '促銷1-1', imageBase64: 'assets/uploads/head2.jpg', alt: '這是圖片' },
+      { imgId: 5, imgName: '促銷1-2', imageBase64: 'assets/uploads/head3.jpg', alt: '這是圖片' },
     ],
     isEdit: false
   }
