@@ -1,0 +1,34 @@
+.block-template-list {
+  display: flex;
+  gap: 24px;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  min-height: 300px;
+}
+.block-template-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  padding: 16px;
+  transition: border 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+.block-template-item:hover, .block-template-item:focus {
+  border: 2px solid #1976d2;
+  box-shadow: 0 4px 16px rgba(25,118,210,0.12);
+}
+.block-template-icon {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  margin-bottom: 8px;
+}
+.block-template-label {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #333;
+}

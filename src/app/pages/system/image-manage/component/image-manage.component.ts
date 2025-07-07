@@ -30,14 +30,12 @@ interface ImageModle {
   styleUrl: './image-manage.component.scss',
   standalone: true,
 })
-
-
-export class ImageManageComponent implements OnInit{
+export class ImageManageComponent implements OnInit {
   folders: folderModle[] = EXAMPLE_DATA;
   @Output() onSave = new EventEmitter<any>();
 
   constructor(
-    private dialogRef: MatDialogRef<ImageManageComponent>,
+    @Optional() private dialogRef: MatDialogRef<ImageManageComponent>,
     private readonly dialog: MatDialog,
     @Optional() @Inject(MAT_DIALOG_DATA) public inputData: any
   ) { }
@@ -104,7 +102,6 @@ export class ImageManageComponent implements OnInit{
     event.stopPropagation();
   }
 
-
   addImage(folder: folderModle, event: MouseEvent) {
     event.stopPropagation();
     const dialogRef = this.dialog.open(ImageEditDialogComponent, {
@@ -124,9 +121,9 @@ export class ImageManageComponent implements OnInit{
     });
   }
 
-   selectImage(img: ImageModle) {
+  selectImage(img: ImageModle) {
     console.log(img);
-    if (this.inputData?.isCheck) {
+    if (this.inputData?.isCheck && this.dialogRef) {
       // 關閉 dialog 並回傳圖片資訊
       this.dialogRef.close({
         imageBase64: img.imageBase64,
@@ -135,7 +132,6 @@ export class ImageManageComponent implements OnInit{
       });
     }
   }
-
 }
 
 const EXAMPLE_DATA: folderModle[] = [

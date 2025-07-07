@@ -1,0 +1,19 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 60" width="80" height="60">
+  <!-- 外框 -->
+  <rect x="0" y="0" width="80" height="60" rx="6" fill="none" stroke="#374151" stroke-width="2"/>
+  <!-- 主圖片區域 -->
+  <rect x="6" y="6" width="68" height="40" rx="3" fill="#3B82F6"/>
+  <circle cx="25" cy="22" r="4" fill="white" opacity="0.7"/>
+  <path d="M35 34 L45 24 L55 34 Z" fill="white" opacity="0.7"/>
+  <!-- 左右箭頭 -->
+  <circle cx="15" cy="26" r="6" fill="white" opacity="0.9"/>
+  <path d="M17 26 L13 22 L13 30 Z" fill="#374151"/>
+  <circle cx="65" cy="26" r="6" fill="white" opacity="0.9"/>
+  <path d="M63 26 L67 22 L67 30 Z" fill="#374151"/>
+  <!-- 指示點 -->
+  <circle cx="32" cy="52" r="2" fill="#3B82F6"/>
+  <circle cx="40" cy="52" r="2" fill="#D1D5DB"/>
+  <circle cx="48" cy="52" r="2" fill="#D1D5DB"/>
+</svg>
