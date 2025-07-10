@@ -58,44 +58,45 @@ $transition-time: 0.3s;
     }
   }
 }
+// 圖片區塊通用樣式
 .block-img {
-    width: 300px;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+  width: 300px;
 
-    img {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
-      border-radius: 8px;
-      box-shadow: 0 2px 8px $shadow-color;
-      transition: transform $transition-time ease;
+  img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px $shadow-color;
+    transition: transform $transition-time ease;
 
-      &:hover {
-        transform: scale(1.02);
-      }
-    }
-
-    .img-upload-btn {
-      width: 100%;
-      padding: 10px;
-      border-radius: 6px;
-      transition: all $transition-time ease;
-      border: 1px solid $border-color;
-
-      mat-icon {
-        margin-right: 8px;
-        vertical-align: middle;
-      }
-
-      &:hover {
-        background-color: rgba($primary-color, 0.1);
-        border-color: $primary-color;
-      }
+    &:hover {
+      transform: scale(1.02);
     }
   }
+
+  .img-upload-btn {
+    width: 100%;
+    padding: 10px;
+    border-radius: 6px;
+    transition: all $transition-time ease;
+    border: 1px solid $border-color;
+
+    mat-icon {
+      margin-right: 8px;
+      vertical-align: middle;
+    }
+
+    &:hover {
+      background-color: rgba($primary-color, 0.1);
+      border-color: $primary-color;
+    }
+  }
+}
 // 通用：區塊刪除按鈕僅在 hover 時顯示，並優化動畫與可維護性
 .block-remove-btn {
   position: absolute;
@@ -137,7 +138,8 @@ $transition-time: 0.3s;
 .block-tibt:hover .block-remove-btn,
 .block-bitt:hover .block-remove-btn,
 .block-video:hover .block-remove-btn,
-.block-text:hover .block-remove-btn {
+.block-text:hover .block-remove-btn,
+.block-image:hover .block-remove-btn {
   opacity: 1;
   pointer-events: auto;
   transform: scale(1);
@@ -154,13 +156,15 @@ $transition-time: 0.3s;
   }
 }
 // 共用的區塊樣式
+// 共用的區塊樣式（所有內容區塊）
 .block-carousel,
 .block-lirt,
 .block-rilt,
 .block-tibt,
 .block-bitt,
 .block-video,
-.block-text {
+.block-text,
+.block-image {
   position: relative;
   margin-bottom: 32px;
   padding: 24px;
@@ -215,8 +219,10 @@ $transition-time: 0.3s;
 }
 
 // 上圖下文和下圖上文共用樣式
+// 上圖下文和下圖上文共用樣式
 .block-tibt,
-.block-bitt {
+.block-bitt,
+.block-image {
   .block-img {
     width: 100%;
     margin: 16px 0;
@@ -245,6 +251,9 @@ $transition-time: 0.3s;
     }
   }
 }
+
+// 純圖片區塊
+// .block-image 樣式已合併至共用區塊與 .block-img
 
 // 純文字區塊
 .block-text {

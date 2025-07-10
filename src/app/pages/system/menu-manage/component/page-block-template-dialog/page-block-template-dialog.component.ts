@@ -20,6 +20,7 @@ export class PageBlockTemplateDialogComponent {
     { value: 'BITT', label: '下圖上文' },
     { value: 'video', label: '影片' },
     { value: 'text', label: '純文字' },
+    { value: 'image', label: '純圖片' },
   ];
 constructor(private dialogRef: MatDialogRef<PageBlockTemplateDialogComponent>) {}
 

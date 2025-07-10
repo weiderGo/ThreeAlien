@@ -116,6 +116,19 @@
           </button>
         </div>
 
+        <!-- 純圖片 -->
+        <div *ngSwitchCase="'image'" class="block-image">
+          <div class="block-img">
+            <img [src]="group.data[0].imageUrl || '/assets/uploads/placeholderLG.png'" alt="純圖片區塊" />
+            <button mat-stroked-button color="primary" (click)="openImageManager(group.data[0])" class="img-upload-btn">
+              <mat-icon>image</mat-icon> 選擇圖片
+            </button>
+          </div>
+          <button mat-mini-fab color="warn" (click)="removeLayoutGroup(groupIndex)" class="block-remove-btn">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+
         <!-- 純文字 -->
         <div *ngSwitchCase="'text'" class="block-text">
           <div class="text-content">
