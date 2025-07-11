@@ -69,7 +69,6 @@ body {
   font-family: 'Palanquin Dark', Arial, Helvetica, sans-serif, "Noto Sans TC";
   font-size: 18px;
   letter-spacing: 2px;
-  color: #000000;
 }
 
 .p-editor .p-editor-toolbar {
@@ -325,3 +324,4 @@ body .ql-snow .ql-picker.ql-header .ql-picker-label:not([data-value])::before,
 body .ql-snow .ql-picker.ql-header .ql-picker-label[data-value=""]::before {
   content: '一般段落' !important;
 }
+

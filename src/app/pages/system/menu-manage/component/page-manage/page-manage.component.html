@@ -1,8 +1,33 @@
-<div class="button-container">
-  <button mat-raised-button color="primary" (click)="addLayoutGroup()">新增版型區塊</button>
-</div>
-<div class="layout-container">
-  <div class="content-container">
+<div class="page-manage-flex">
+  <!-- SEO 設定側邊欄 -->
+  <aside class="seo-sidebar">
+    <h3>SEO 設定</h3>
+    <form>
+      <mat-form-field appearance="outline" >
+        <!-- <mat-label>Title</mat-label> -->
+        <input matInput [(ngModel)]="seo.title" name="seoTitle" maxlength="60"/>
+      </mat-form-field>
+      <mat-form-field appearance="outline" >
+        <!-- <mat-label>Description</mat-label> -->
+        <input matInput [(ngModel)]="seo.description" name="seoDescription" maxlength="160" rows="3">
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <!-- <mat-label>Keywords</mat-label> -->
+        <input matInput [(ngModel)]="seo.keywords" name="seoKeywords" placeholder="以逗號分隔"/>
+      </mat-form-field>
+      <mat-form-field appearance="outline" >
+        <!-- <mat-label>OG Image</mat-label> -->
+        <input matInput [(ngModel)]="seo.ogImage" name="seoOgImage" placeholder="圖片網址"  />
+      </mat-form-field>
+      <!-- 可依需求擴充更多 SEO 欄位 -->
+    </form>
+  </aside>
+  <div class="main-content">
+    <div class="button-container">
+      <button mat-raised-button color="primary" (click)="addLayoutGroup()">新增版型區塊</button>
+    </div>
+    <div class="layout-container">
+      <div class="content-container">
     <ng-container *ngFor="let group of layoutGroups; let groupIndex = index">
       <ng-container [ngSwitch]="group.type">
         <!-- 大圖輪播 -->
@@ -142,5 +167,7 @@
 
       </ng-container>
     </ng-container>
+  </div>
+    </div>
   </div>
 </div>

@@ -16,8 +16,10 @@
         <div *ngIf="!element.isEdit">
           {{ element.name }}
         </div>
-        <div *ngIf="element.isEdit">
-          <input matInput [(ngModel)]="element.name" class="input" />
+        <div *ngIf="element.isEdit" style="margin-top: 20px;">
+          <mat-form-field appearance="outline">
+             <input matInput [(ngModel)]="element.name" />
+          </mat-form-field>
         </div>
       </div>
     </td>

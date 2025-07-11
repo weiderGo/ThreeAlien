@@ -12,6 +12,7 @@ import { ImageManageComponent } from '../../../image-manage/component/image-mana
 import { MatDialog } from '@angular/material/dialog';
 import { PageBlockTemplateDialogComponent } from '../page-block-template-dialog/page-block-template-dialog.component';
 import { CarouselModule } from 'primeng/carousel';
+import { MatInputModule } from '@angular/material/input';
 
 // 這份字型列表是純資料，可以保留在模組頂層
 const fontNames = ['noto-sans-tc','serif', 'monospace',  'microsoft-jhenghei', 'dfkai-sb', 'mingliu'];
@@ -30,14 +31,20 @@ interface LayoutGroup {
   styleUrls: ['./page-manage.component.scss'],
   standalone: true,
   imports: [
-    FormsModule, MatFormFieldModule, MatSelectModule, MatButtonModule,CarouselModule,
+    FormsModule, MatFormFieldModule, MatSelectModule, MatButtonModule,CarouselModule,MatInputModule,
     MatIconModule, MatDividerModule, CommonModule, MatMenuModule, EditorModule, ImageManageComponent
   ]
 })
 export class PageManageComponent implements OnInit {
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object, public dialog: MatDialog) { }
-
+  // SEO 設定物件
+  seo = {
+    title: '',
+    description: '',
+    keywords: '',
+    ogImage: '',
+  };
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
       import('quill').then(QuillModule => {
@@ -109,7 +116,7 @@ export class PageManageComponent implements OnInit {
       width: '80%',
       height: '360px',
       data: { layouts: this.layouts }
-    }).afterClosed().subscribe(res => {
+    }).afterClosed().subscribe((res:any) => {
       if (res) {
         this.layoutGroups.push({
           type: res.value,

@@ -261,6 +261,62 @@ $transition-time: 0.3s;
     width: 100%;
   }
 }
+// SEO 側邊欄與主內容區塊彈性排版
+.page-manage-flex {
+  display: flex;
+  align-items: flex-start;
+  gap: 32px;
+}
+
+.seo-sidebar {
+  width: 320px;
+  min-width: 260px;
+  background: #fff;
+  border: 2px dashed $border-color;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px $shadow-color;
+  padding: 24px 20px 20px 20px;
+  position: sticky;
+  top: 32px;
+  height: fit-content;
+
+  h3 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: $primary-color;
+    letter-spacing: 1px;
+  }
+
+  .seo-field {
+    width: 100%;
+    margin-bottom: 18px;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+}
+
+.main-content {
+  flex: 1;
+  min-width: 0;
+}
+
+@media (max-width: 1024px) {
+  .page-manage-flex {
+    flex-direction: column;
+    gap: 0;
+  }
+  .seo-sidebar {
+    width: 100%;
+    min-width: unset;
+    position: static;
+    margin-bottom: 24px;
+  }
+}
 
 // 響應式設計
 @media (max-width: 768px) {
