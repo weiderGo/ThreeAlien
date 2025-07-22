@@ -275,10 +275,11 @@ $transition-time: 0.3s;
   border: 2px dashed $border-color;
   border-radius: 12px;
   box-shadow: 0 2px 12px $shadow-color;
-  padding: 24px 20px 20px 20px;
+  padding: 24px 20px 7px 20px;
   position: sticky;
   top: 32px;
   height: fit-content;
+  margin-top: 58px;
 
   h3 {
     font-size: 1.2rem;
