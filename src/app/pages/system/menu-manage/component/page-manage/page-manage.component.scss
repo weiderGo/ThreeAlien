@@ -30,10 +30,68 @@ $transition-time: 0.3s;
       transform: translateY(-2px);
     }
   }
+
+  &.fixed-button {
+    position: fixed;
+    top: 8%;
+    right: 20px;
+    z-index: 1000;
+    margin-bottom: 0;
+    backdrop-filter: blur(10px);
+    border-radius: 8px;
+
+    button {
+      mat-icon {
+        display: none; // 大螢幕時隱藏圖示
+      }
+    }
+
+    @media (max-width: 1480px) {
+      button {
+        min-width: 42px;
+        width: 42px;
+        height: 42px;
+        padding: 0;
+        border-radius: 50%;
+
+        .button-text {
+          display: none;
+        }
+
+        mat-icon {
+          display: inline-block; // 小螢幕時顯示圖示
+          margin: 0;
+        }
+      }
+    }
+  }
 }
 
 .content-container {
   width: 100%;
+}
+
+.empty-state {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+  margin: 40px 0;
+  padding: 40px;
+  border: 2px dashed $border-color;
+  border-radius: 12px;
+  background-color: #ffffff;
+  color: #9e9e9e;
+  font-size: 18px;
+  font-weight: 500;
+  text-align: center;
+  transition: all $transition-time ease;
+
+  &:hover {
+    border-color: $primary-color;
+    color: $primary-color;
+    background-color: rgba($primary-color, 0.02);
+  }
 }
 
 .block-rilt {
@@ -211,10 +269,15 @@ $transition-time: 0.3s;
 .block-lirt,
 .block-rilt {
   display: flex;
-  gap: 24px;
+  flex-direction: column;
+
 
   .block-img {
     width: 300px;
+  }
+  .block-main-content{
+    display: flex;
+    gap:  24px;
   }
 }
 
@@ -261,6 +324,110 @@ $transition-time: 0.3s;
     width: 100%;
   }
 }
+
+// 拖拽手柄樣式
+.drag-handle {
+  cursor: grab;
+  color: #999;
+
+  &:active {
+    cursor: grabbing;
+  }
+
+  mat-icon {
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+  }
+}
+
+// 區塊控制區（上區塊）
+.block-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  background: rgba($primary-color, 0.2);
+  border-bottom: 1px solid $border-color;
+  border-radius: 8px 8px 0 0;
+  margin: -24px -24px 16px -24px;
+}
+
+// 區塊主要內容區（下區塊）
+.block-main-content {
+  position: relative;
+
+  .block-remove-btn {
+    position: absolute;
+    top: -16px;
+    right: -16px;
+  }
+}
+
+// 排序數字輸入框樣式
+.sort-number {
+  width: 80px;
+  margin-right: 15px;
+
+  mat-form-field {
+    width: 100%;
+    font-size: 12px;
+
+    ::ng-deep {
+      .mat-mdc-form-field-wrapper {
+        padding-bottom: 0;
+      }
+      .mat-mdc-form-field-bottom-align{
+        display: none;
+      }
+
+      .mat-mdc-text-field-wrapper {
+        height: 32px;
+      }
+
+      .mat-mdc-form-field-input-control {
+        height: 32px;
+      }
+
+      .mat-mdc-floating-label {
+        font-size: 11px;
+      }
+
+      input {
+        font-size: 12px;
+        text-align: center;
+      }
+    }
+  }
+}// CDK 拖拽樣式
+.cdk-drag-preview {
+  box-sizing: border-box;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  opacity: 0.8;
+}
+
+.cdk-drag-placeholder {
+  opacity: 0.4;
+  border: 2px dashed $primary-color;
+  background: rgba($primary-color, 0.05);
+}
+
+.cdk-drag-animating {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.content-container.cdk-drop-list-dragging .block-carousel:not(.cdk-drag-placeholder),
+.content-container.cdk-drop-list-dragging .block-lirt:not(.cdk-drag-placeholder),
+.content-container.cdk-drop-list-dragging .block-rilt:not(.cdk-drag-placeholder),
+.content-container.cdk-drop-list-dragging .block-tibt:not(.cdk-drag-placeholder),
+.content-container.cdk-drop-list-dragging .block-bitt:not(.cdk-drag-placeholder),
+.content-container.cdk-drop-list-dragging .block-video:not(.cdk-drag-placeholder),
+.content-container.cdk-drop-list-dragging .block-text:not(.cdk-drag-placeholder),
+.content-container.cdk-drop-list-dragging .block-image:not(.cdk-drag-placeholder) {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
 // SEO 側邊欄與主內容區塊彈性排版
 .page-manage-flex {
   display: flex;
@@ -277,9 +444,8 @@ $transition-time: 0.3s;
   box-shadow: 0 2px 12px $shadow-color;
   padding: 24px 20px 7px 20px;
   position: sticky;
-  top: 32px;
+  top: 70px;
   height: fit-content;
-  margin-top: 58px;
 
   h3 {
     font-size: 1.2rem;
@@ -316,6 +482,7 @@ $transition-time: 0.3s;
     min-width: unset;
     position: static;
     margin-bottom: 24px;
+    margin-left:0;
   }
 }
 

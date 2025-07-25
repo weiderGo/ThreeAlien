@@ -3,171 +3,307 @@
   <aside class="seo-sidebar">
     <h3>SEO 設定</h3>
     <form>
-      <mat-form-field appearance="outline" >
-        <!-- <mat-label>Title</mat-label> -->
-        <input matInput [(ngModel)]="seo.title" name="seoTitle" maxlength="60"/>
+      標題
+      <mat-form-field appearance="outline">
+        <input matInput [(ngModel)]="seo.title" name="seoTitle" maxlength="60" />
       </mat-form-field>
-      <mat-form-field appearance="outline" >
-        <!-- <mat-label>Description</mat-label> -->
+      內文
+      <mat-form-field appearance="outline">
         <input matInput [(ngModel)]="seo.description" name="seoDescription" maxlength="160" rows="3">
       </mat-form-field>
+      關鍵字
       <mat-form-field appearance="outline">
-        <!-- <mat-label>Keywords</mat-label> -->
-        <input matInput [(ngModel)]="seo.keywords" name="seoKeywords" placeholder="以逗號分隔"/>
+        <input matInput [(ngModel)]="seo.keywords" name="seoKeywords" placeholder="以逗號分隔" />
       </mat-form-field>
-      <mat-form-field appearance="outline" >
-        <!-- <mat-label>OG Image</mat-label> -->
-        <input matInput [(ngModel)]="seo.ogImage" name="seoOgImage" placeholder="圖片網址"  />
+      預覽圖片
+      <mat-form-field appearance="outline">
+        <input matInput [(ngModel)]="seo.ogImage" name="seoOgImage" placeholder="圖片網址" />
+      </mat-form-field>
+      內頁標籤
+      <mat-form-field appearance="outline">
+        <input matInput [(ngModel)]="seo.tagName" name="tagName" placeholder="以逗號分隔" />
       </mat-form-field>
       <!-- 可依需求擴充更多 SEO 欄位 -->
     </form>
   </aside>
   <div class="main-content">
-    <div class="button-container">
-      <button mat-raised-button color="primary" (click)="addLayoutGroup()">新增版型區塊</button>
+    <div class="button-container fixed-button">
+      <button mat-raised-button color="primary" (click)="addLayoutGroup()">
+        <mat-icon>add</mat-icon>
+        <span class="button-text">新增版型區塊</span>
+      </button>
     </div>
     <div class="layout-container">
-      <div class="content-container">
-    <ng-container *ngFor="let group of layoutGroups; let groupIndex = index">
-      <ng-container [ngSwitch]="group.type">
-        <!-- 大圖輪播 -->
-        <div *ngSwitchCase="'large_carousel'" class="block-carousel block-large">
-          <p-carousel [value]="group.data" [numVisible]="1" [numScroll]="1">
-            <ng-template let-item pTemplate="item">
-              <img [src]="item.imageUrl || '/assets/uploads/placeholder.png'" alt="" />
-            </ng-template>
-          </p-carousel>
-          <button mat-stroked-button color="primary" (click)="openImageManager(group)" class="add-image-btn">
-            <mat-icon>add_photo_alternate</mat-icon> 新增圖片
-          </button>
-          <button mat-mini-fab color="warn" (click)="removeLayoutGroup(groupIndex)" class="block-remove-btn">
-            <mat-icon>delete</mat-icon>
-          </button>
-        </div>
-        <!-- 小圖輪播 -->
-        <div *ngSwitchCase="'small_carousel'" class="block-carousel block-small">
-          <p-carousel [value]="group.data" [numVisible]="3" [numScroll]="1">
-            <ng-template let-item pTemplate="item">
-              <img [src]="item.imageUrl || '/assets/uploads/placeholder.png'" alt="" />
-            </ng-template>
-          </p-carousel>
-          <button mat-stroked-button color="primary" (click)="addCarouselImage(group)" class="add-image-btn">
-            <mat-icon>add_photo_alternate</mat-icon> 新增圖片
-          </button>
-          <button mat-mini-fab color="warn" (click)="removeLayoutGroup(groupIndex)" class="block-remove-btn">
-            <mat-icon>delete</mat-icon>
-          </button>
-        </div>
-        <!-- 右圖左文 -->
-        <div *ngSwitchCase="'RILT'" class="block-rilt"> <!-- 注意：新增區塊的 ngSwitchCase 和 class -->
-          <div class="block-content">
-            <p-editor [(ngModel)]="group.data[0].text" [modules]="editorOnlyText"
-              [style]="{ height: '200px' }"></p-editor>
-          </div>
-          <div class="block-img">
-            <img [src]="group.data[0].imageUrl || '/assets/uploads/placeholder.png'" alt="" />
-            <button mat-stroked-button color="primary" (click)="openImageManager(group.data[0])" class="img-upload-btn">
-              <mat-icon>image</mat-icon> 選擇圖片
-            </button>
-          </div>
-          <button mat-mini-fab color="warn" (click)="removeLayoutGroup(groupIndex)" class="block-remove-btn">
-            <mat-icon>delete</mat-icon>
-          </button>
-        </div>
-        <!-- 左圖右文 -->
-        <div *ngSwitchCase="'LIRT'" class="block-lirt">
-          <div class="block-img">
-            <img [src]="group.data[0].imageUrl || '/assets/uploads/placeholder.png'" alt="" />
-            <button mat-stroked-button color="primary" (click)="openImageManager(group.data[0])" class="img-upload-btn">
-              <mat-icon>image</mat-icon> 選擇圖片
-            </button>
-          </div>
-          <div class="block-content">
-            <p-editor [(ngModel)]="group.data[0].text" [modules]="editorOnlyText"
-              [style]="{ height: '200px' }"></p-editor>
-          </div>
-          <button mat-mini-fab color="warn" (click)="removeLayoutGroup(groupIndex)" class="block-remove-btn">
-            <mat-icon>delete</mat-icon>
-          </button>
-        </div>
-        <!-- 上圖下文 -->
-        <div *ngSwitchCase="'TIBT'" class="block-tibt">
-          <div class="block-img">
-            <img [src]="group.data[0].imageUrl || '/assets/uploads/placeholderLG.png'" alt="" />
-            <button mat-stroked-button color="primary" (click)="openImageManager(group.data[0])" class="img-upload-btn">
-              <mat-icon>image</mat-icon> 選擇圖片
-            </button>
-          </div>
-          <div class="block-content">
-            <p-editor [(ngModel)]="group.data[0].text" [modules]="editorOnlyText"
-              [style]="{ height: '200px' }"></p-editor>
-          </div>
-          <div class="block">
-            <button mat-mini-fab color="warn" (click)="removeLayoutGroup(groupIndex)" class="block-remove-btn">
-              <mat-icon>delete</mat-icon>
-            </button>
-          </div>
-        </div>
+      <div class="content-container" cdkDropList (cdkDropListDropped)="dropLayoutGroup($event)">
+        <ng-container *ngIf="layoutGroups.length === 0">
+          <div class="empty-state">尚未新增任何區塊</div>
+        </ng-container>
+        <ng-container *ngFor="let group of layoutGroups; let groupIndex = index">
+          <ng-container [ngSwitch]="group.type">
+            <!-- 大圖輪播 -->
+            <div *ngSwitchCase="'large_carousel'" class="block-carousel block-large" cdkDrag>
+              <div class="block-controls">
+                <div class="drag-handle" cdkDragHandle>
+                  <mat-icon>drag_indicator</mat-icon>
+                </div>
+                <div class="sort-number">
+                  <mat-form-field appearance="outline">
+                    <mat-label>排序</mat-label>
+                    <input matInput type="number" [(ngModel)]="group.sortOrder"
+                      (blur)="updateSortByNumber(groupIndex, group.sortOrder)" min="1" [max]="layoutGroups.length">
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="block-main-content">
+                <p-carousel [value]="group.data" [numVisible]="1" [numScroll]="1">
+                  <ng-template let-item pTemplate="item">
+                    <img [src]="item.imageUrl || '/assets/uploads/placeholder.png'" alt="" />
+                  </ng-template>
+                </p-carousel>
+                <button mat-stroked-button color="primary" (click)="openImageManager(group)" class="add-image-btn">
+                  <mat-icon>add_photo_alternate</mat-icon> 新增圖片
+                </button>
+              </div>
+              <button mat-mini-fab color="warn" (click)="removeLayoutGroup(groupIndex)" class="block-remove-btn">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+            <!-- 小圖輪播 -->
+            <div *ngSwitchCase="'small_carousel'" class="block-carousel block-small" cdkDrag>
+              <div class="block-controls">
+                <div class="drag-handle" cdkDragHandle>
+                  <mat-icon>drag_indicator</mat-icon>
+                </div>
+                <div class="sort-number">
+                  <mat-form-field appearance="outline">
+                    <mat-label>排序</mat-label>
+                    <input matInput type="number" [(ngModel)]="group.sortOrder"
+                      (blur)="updateSortByNumber(groupIndex, group.sortOrder)" min="1" [max]="layoutGroups.length">
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="block-main-content">
+                <p-carousel [value]="group.data" [numVisible]="3" [numScroll]="1">
+                  <ng-template let-item pTemplate="item">
+                    <img [src]="item.imageUrl || '/assets/uploads/placeholder.png'" alt="" />
+                  </ng-template>
+                </p-carousel>
+                <button mat-stroked-button color="primary" (click)="addCarouselImage(group)" class="add-image-btn">
+                  <mat-icon>add_photo_alternate</mat-icon> 新增圖片
+                </button>
+              </div>
+              <button mat-mini-fab color="warn" (click)="removeLayoutGroup(groupIndex)" class="block-remove-btn">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+            <!-- 右圖左文 -->
+            <div *ngSwitchCase="'RILT'" class="block-rilt" cdkDrag>
+              <div class="block-controls">
+                <div class="drag-handle" cdkDragHandle>
+                  <mat-icon>drag_indicator</mat-icon>
+                </div>
+                <div class="sort-number">
+                  <mat-form-field appearance="outline">
+                    <mat-label>排序</mat-label>
+                    <input matInput type="number" [(ngModel)]="group.sortOrder"
+                      (blur)="updateSortByNumber(groupIndex, group.sortOrder)" min="1" [max]="layoutGroups.length">
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="block-main-content">
+                <div class="block-content">
+                  <p-editor [(ngModel)]="group.data[0].text" [modules]="editorOnlyText"
+                    [style]="{ height: '200px' }"></p-editor>
+                </div>
+                <div class="block-img">
+                  <img [src]="group.data[0].imageUrl || '/assets/uploads/placeholder.png'" alt="" />
+                  <button mat-stroked-button color="primary" (click)="openImageManager(group.data[0])"
+                    class="img-upload-btn">
+                    <mat-icon>image</mat-icon> 選擇圖片
+                  </button>
+                </div>
+              </div>
+              <button mat-mini-fab color="warn" (click)="removeLayoutGroup(groupIndex)" class="block-remove-btn">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+            <!-- 左圖右文 -->
+            <div *ngSwitchCase="'LIRT'" class="block-lirt" cdkDrag>
+              <div class="block-controls">
+                <div class="drag-handle" cdkDragHandle>
+                  <mat-icon>drag_indicator</mat-icon>
+                </div>
+                <div class="sort-number">
+                  <mat-form-field appearance="outline">
+                    <mat-label>排序</mat-label>
+                    <input matInput type="number" [(ngModel)]="group.sortOrder"
+                      (blur)="updateSortByNumber(groupIndex, group.sortOrder)" min="1" [max]="layoutGroups.length">
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="block-main-content">
+                <div class="block-img">
+                  <img [src]="group.data[0].imageUrl || '/assets/uploads/placeholder.png'" alt="" />
+                  <button mat-stroked-button color="primary" (click)="openImageManager(group.data[0])"
+                    class="img-upload-btn">
+                    <mat-icon>image</mat-icon> 選擇圖片
+                  </button>
+                </div>
+                <div class="block-content">
+                  <p-editor [(ngModel)]="group.data[0].text" [modules]="editorOnlyText"
+                    [style]="{ height: '200px' }"></p-editor>
+                </div>
+              </div>
+              <button mat-mini-fab color="warn" (click)="removeLayoutGroup(groupIndex)" class="block-remove-btn">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+            <!-- 上圖下文 -->
+            <div *ngSwitchCase="'TIBT'" class="block-tibt" cdkDrag>
+              <div class="block-controls">
+                <div class="drag-handle" cdkDragHandle>
+                  <mat-icon>drag_indicator</mat-icon>
+                </div>
+                <div class="sort-number">
+                  <mat-form-field appearance="outline">
+                    <mat-label>排序</mat-label>
+                    <input matInput type="number" [(ngModel)]="group.sortOrder"
+                      (blur)="updateSortByNumber(groupIndex, group.sortOrder)" min="1" [max]="layoutGroups.length">
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="block-main-content">
+                <div class="block-img">
+                  <img [src]="group.data[0].imageUrl || '/assets/uploads/placeholderLG.png'" alt="" />
+                  <button mat-stroked-button color="primary" (click)="openImageManager(group.data[0])"
+                    class="img-upload-btn">
+                    <mat-icon>image</mat-icon> 選擇圖片
+                  </button>
+                </div>
+                <div class="block-content">
+                  <p-editor [(ngModel)]="group.data[0].text" [modules]="editorOnlyText"
+                    [style]="{ height: '200px' }"></p-editor>
+                </div>
+              </div>
+              <button mat-mini-fab color="warn" (click)="removeLayoutGroup(groupIndex)" class="block-remove-btn">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
 
-        <!-- 下圖上文 -->
-        <div *ngSwitchCase="'BITT'" class="block-bitt">
-          <div class="block-content">
-            <p-editor [(ngModel)]="group.data[0].text" [modules]="editorOnlyText"
-              [style]="{ height: '200px' }"></p-editor>
-          </div>
-          <div class="block-img">
-            <img [src]="group.data[0].imageUrl || '/assets/uploads/placeholderLG.png'" alt="" />
-            <button mat-stroked-button color="primary" (click)="openImageManager(group.data[0])" class="img-upload-btn">
-              <mat-icon>image</mat-icon> 選擇圖片
-            </button>
-          </div>
-          <button mat-mini-fab color="warn" (click)="removeLayoutGroup(groupIndex)" class="block-remove-btn">
-            <mat-icon>delete</mat-icon>
-          </button>
-        </div>
+            <!-- 下圖上文 -->
+            <div *ngSwitchCase="'BITT'" class="block-bitt" cdkDrag>
+              <div class="block-controls">
+                <div class="drag-handle" cdkDragHandle>
+                  <mat-icon>drag_indicator</mat-icon>
+                </div>
+                <div class="sort-number">
+                  <mat-form-field appearance="outline">
+                    <mat-label>排序</mat-label>
+                    <input matInput type="number" [(ngModel)]="group.sortOrder"
+                      (blur)="updateSortByNumber(groupIndex, group.sortOrder)" min="1" [max]="layoutGroups.length">
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="block-main-content">
+                <div class="block-content">
+                  <p-editor [(ngModel)]="group.data[0].text" [modules]="editorOnlyText"
+                    [style]="{ height: '200px' }"></p-editor>
+                </div>
+                <div class="block-img">
+                  <img [src]="group.data[0].imageUrl || '/assets/uploads/placeholderLG.png'" alt="" />
+                  <button mat-stroked-button color="primary" (click)="openImageManager(group.data[0])"
+                    class="img-upload-btn">
+                    <mat-icon>image</mat-icon> 選擇圖片
+                  </button>
+                </div>
+              </div>
+              <button mat-mini-fab color="warn" (click)="removeLayoutGroup(groupIndex)" class="block-remove-btn">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
 
-        <!-- 影片 -->
-        <div *ngSwitchCase="'video'" class="block-video">
-          <div class="video-container">
-            <!-- <video controls [src]="group.data[0].videoUrl">
-              您的瀏覽器不支援影片播放
-            </video> -->
-            <button mat-stroked-button color="primary" class="video-upload-btn">
-              <mat-icon>videocam</mat-icon> 上傳影片
-            </button>
-          </div>
-          <button mat-mini-fab color="warn" (click)="removeLayoutGroup(groupIndex)" class="block-remove-btn">
-            <mat-icon>delete</mat-icon>
-          </button>
-        </div>
+            <!-- 影片 -->
+            <div *ngSwitchCase="'video'" class="block-video" cdkDrag>
+              <div class="block-controls">
+                <div class="drag-handle" cdkDragHandle>
+                  <mat-icon>drag_indicator</mat-icon>
+                </div>
+                <div class="sort-number">
+                  <mat-form-field appearance="outline">
+                    <mat-label>排序</mat-label>
+                    <input matInput type="number" [(ngModel)]="group.sortOrder"
+                      (blur)="updateSortByNumber(groupIndex, group.sortOrder)" min="1" [max]="layoutGroups.length">
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="block-main-content">
+                <div class="video-container">
+                  <button mat-stroked-button color="primary" class="video-upload-btn">
+                    <mat-icon>videocam</mat-icon> 上傳影片
+                  </button>
+                </div>
+              </div>
+              <button mat-mini-fab color="warn" (click)="removeLayoutGroup(groupIndex)" class="block-remove-btn">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
 
-        <!-- 純圖片 -->
-        <div *ngSwitchCase="'image'" class="block-image">
-          <div class="block-img">
-            <img [src]="group.data[0].imageUrl || '/assets/uploads/placeholderLG.png'" alt="純圖片區塊" />
-            <button mat-stroked-button color="primary" (click)="openImageManager(group.data[0])" class="img-upload-btn">
-              <mat-icon>image</mat-icon> 選擇圖片
-            </button>
-          </div>
-          <button mat-mini-fab color="warn" (click)="removeLayoutGroup(groupIndex)" class="block-remove-btn">
-            <mat-icon>delete</mat-icon>
-          </button>
-        </div>
+            <!-- 純圖片 -->
+            <div *ngSwitchCase="'image'" class="block-image" cdkDrag>
+              <div class="block-controls">
+                <div class="drag-handle" cdkDragHandle>
+                  <mat-icon>drag_indicator</mat-icon>
+                </div>
+                <div class="sort-number">
+                  <mat-form-field appearance="outline">
+                    <mat-label>排序</mat-label>
+                    <input matInput type="number" [(ngModel)]="group.sortOrder"
+                      (blur)="updateSortByNumber(groupIndex, group.sortOrder)" min="1" [max]="layoutGroups.length">
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="block-main-content">
+                <div class="block-img">
+                  <img [src]="group.data[0].imageUrl || '/assets/uploads/placeholderLG.png'" alt="純圖片區塊" />
+                  <button mat-stroked-button color="primary" (click)="openImageManager(group.data[0])"
+                    class="img-upload-btn">
+                    <mat-icon>image</mat-icon> 選擇圖片
+                  </button>
+                </div>
+              </div>
+              <button mat-mini-fab color="warn" (click)="removeLayoutGroup(groupIndex)" class="block-remove-btn">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
 
-        <!-- 純文字 -->
-        <div *ngSwitchCase="'text'" class="block-text">
-          <div class="text-content">
-            <p-editor [(ngModel)]="group.data[0].text" [modules]="editorModules"
-              [style]="{ height: '300px' }"></p-editor>
-          </div>
-          <button mat-mini-fab color="warn" (click)="removeLayoutGroup(groupIndex)" class="block-remove-btn">
-            <mat-icon>delete</mat-icon>
-          </button>
-        </div>
+            <!-- 純文字 -->
+            <div *ngSwitchCase="'text'" class="block-text" cdkDrag>
+              <div class="block-controls">
+                <div class="drag-handle" cdkDragHandle>
+                  <mat-icon>drag_indicator</mat-icon>
+                </div>
+                <div class="sort-number">
+                  <mat-form-field appearance="outline">
+                    <mat-label>排序</mat-label>
+                    <input matInput type="number" [(ngModel)]="group.sortOrder"
+                      (blur)="updateSortByNumber(groupIndex, group.sortOrder)" min="1" [max]="layoutGroups.length">
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="block-main-content">
+                <div class="text-content">
+                  <p-editor [(ngModel)]="group.data[0].text" [modules]="editorModules"
+                    [style]="{ height: '300px' }"></p-editor>
+                </div>
+              </div>
+              <button mat-mini-fab color="warn" (click)="removeLayoutGroup(groupIndex)" class="block-remove-btn">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
 
-      </ng-container>
-    </ng-container>
-  </div>
+          </ng-container>
+        </ng-container>
+      </div>
     </div>
   </div>
 </div>

@@ -13,18 +13,12 @@ import { MatDialog } from '@angular/material/dialog';
 import { PageBlockTemplateDialogComponent } from '../page-block-template-dialog/page-block-template-dialog.component';
 import { CarouselModule } from 'primeng/carousel';
 import { MatInputModule } from '@angular/material/input';
+import { LayoutGroup } from '../../interface/block';
+import { CdkDragDrop, DragDropModule, moveItemInArray } from '@angular/cdk/drag-drop';
 
 // 這份字型列表是純資料，可以保留在模組頂層
 const fontNames = ['noto-sans-tc','serif', 'monospace',  'microsoft-jhenghei', 'dfkai-sb', 'mingliu'];
-interface Block {
-  imageUrl?: string;
-  imageId: string;
-  text: string;
-}
-interface LayoutGroup {
-  type: string; // 1.左圖右文 2.右圖左文 3.上圖下文 4.下圖上文
-  data: Block[];
-}
+
 @Component({
   selector: 'app-page-manage',
   templateUrl: './page-manage.component.html',
@@ -32,7 +26,7 @@ interface LayoutGroup {
   standalone: true,
   imports: [
     FormsModule, MatFormFieldModule, MatSelectModule, MatButtonModule,CarouselModule,MatInputModule,
-    MatIconModule, MatDividerModule, CommonModule, MatMenuModule, EditorModule, ImageManageComponent
+    MatIconModule, MatDividerModule, CommonModule, MatMenuModule, EditorModule, ImageManageComponent, DragDropModule
   ]
 })
 export class PageManageComponent implements OnInit {
@@ -44,6 +38,7 @@ export class PageManageComponent implements OnInit {
     description: '',
     keywords: '',
     ogImage: '',
+    tagName:''
   };
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
@@ -116,28 +111,58 @@ export class PageManageComponent implements OnInit {
       width: '80%',
       height: '360px',
       data: { layouts: this.layouts }
-    }).afterClosed().subscribe((res:any) => {
+    }).afterClosed().subscribe(res => {
       if (res) {
         this.layoutGroups.push({
           type: res.value,
+          sortOrder: this.layoutGroups.length + 1, // 新增排序編號
           data: [{
             text: '', imageUrl: '',
-            imageId: ''
+            imageId: '',
+            sort: this.layoutGroups.length // 設定為當前數量，確保排序正確
           }]
         });
+        this.updateSortOrder(); // 更新排序
       }
     });
   }
 
-  removeLayoutGroup(groupIndex: number) {
-    this.layoutGroups.splice(groupIndex, 1);
+  // 拖拽排序處理
+  dropLayoutGroup(event: CdkDragDrop<LayoutGroup[]>) {
+    moveItemInArray(this.layoutGroups, event.previousIndex, event.currentIndex);
+    this.updateSortOrder(); // 重新設定 sort 值
   }
 
-  addBlockToGroup(groupIndex: number) {
-    this.layoutGroups[groupIndex].data.push({
-      text: '', imageUrl: '',
-      imageId: ''
+  // 更新所有區塊的排序值
+  updateSortOrder() {
+    this.layoutGroups.forEach((group, index) => {
+      group.sortOrder = index + 1; // 更新排序編號
+      group.data.forEach(block => {
+        block.sort = index;
+      });
     });
+  }
+
+  // 透過數字輸入調整排序
+  updateSortByNumber(currentIndex: number, newSortOrder: number) {
+    if (newSortOrder < 1 || newSortOrder > this.layoutGroups.length) {
+      // 如果輸入無效，重置為原本的順序
+      this.layoutGroups[currentIndex].sortOrder = currentIndex + 1;
+      return;
+    }
+
+    const targetIndex = newSortOrder - 1; // 轉換為陣列索引
+    if (targetIndex !== currentIndex) {
+      // 移動元素到新位置
+      const item = this.layoutGroups.splice(currentIndex, 1)[0];
+      this.layoutGroups.splice(targetIndex, 0, item);
+      this.updateSortOrder(); // 重新更新所有排序
+    }
+  }
+
+  removeLayoutGroup(groupIndex: number) {
+    this.layoutGroups.splice(groupIndex, 1);
+    this.updateSortOrder(); // 刪除後重新更新排序
   }
 
   removeBlockFromGroup(groupIndex: number, blockIndex: number) {
