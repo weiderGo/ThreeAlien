@@ -11,44 +11,73 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { Router, RouterOutlet } from '@angular/router';
 
 
-export interface menuModel {
-  name: string;
+export interface PageModel {
+  pageName: string;
   sort: number;
   isEdit: boolean;
-  subList: subModel[]
-}
-export interface subModel {
-  name: string;
-  sort: number;
-  isEdit: boolean;
+  isActive: boolean;
+  iconClass: string;
+  subList?: PageModel[]
 }
 
-export const ELEMENT_DATA: menuModel[] = [
+export const ELEMENT_DATA: PageModel[] = [
   {
-    sort: 1, name: '關於我們', isEdit: false,
+    sort: 1,
+    pageName: '關於宸暐',
+    isActive: true,
+    isEdit: false,
     subList: [
-      { name: '電話', sort: 0, isEdit: false },
-      { name: '地址', sort: 1, isEdit: false },
-      { name: '照片', sort: 2, isEdit: false }
-    ]
+      { pageName: '電話', sort: 0, isEdit: false, isActive: true, iconClass: 'phone' },
+      { pageName: '地址', sort: 1, isEdit: false, isActive: true, iconClass: 'address' },
+      { pageName: '照片', sort: 2, isEdit: false, isActive: true, iconClass: 'photo' }
+    ],
+    iconClass: ''
   },
   {
-    sort: 2, name: '公司簡介', isEdit: false,
+    sort: 2,
+    pageName: '鑄造流程',
+    isEdit: false,
+    isActive: true,
     subList: [
-      { name: '公司電話', sort: 0, isEdit: false },
-      { name: '公司地址', sort: 1, isEdit: false }
-    ]
+      {
+        pageName: '公司電話', sort: 0, isEdit: false, isActive: true,
+        iconClass: ''
+      },
+      {
+        pageName: '公司地址', sort: 1, isEdit: false, isActive: true,
+        iconClass: ''
+      }
+    ],
+    iconClass: ''
   },
   {
-    sort: 3, name: '產品介紹', isEdit: false,
+    sort: 3, pageName: '鑄造設備',
+    isActive: true,
+    isEdit: false,
     subList: [
-      { name: '電子產品', sort: 0, isEdit: false },
-      { name: '寢具', sort: 1, isEdit: false }
-    ]
+      {
+        pageName: '電子產品', sort: 0, isEdit: false, isActive: true,
+        iconClass: ''
+      },
+      {
+        pageName: '寢具', sort: 1, isEdit: false, isActive: true,
+        iconClass: ''
+      }
+    ],
+    iconClass: ''
   },
-  { sort: 4, name: '聯絡我們', isEdit: false, subList: [] },
-  { sort: 5, name: '品牌介紹', isEdit: false, subList: [] },
-  { sort: 6, name: '活動展期', isEdit: false, subList: [] },
+  {
+    sort: 4, pageName: '檢測設備', isEdit: false, isActive: true, subList: [],
+    iconClass: ''
+  },
+  {
+    sort: 5, pageName: '產品', isEdit: false, isActive: true, subList: [],
+    iconClass: ''
+  },
+  {
+    sort: 6, pageName: '聯絡我們', isEdit: false, isActive: true, subList: [],
+    iconClass: ''
+  },
 ];
 @Component({
   selector: 'app-menu-main',
@@ -65,11 +94,11 @@ export const ELEMENT_DATA: menuModel[] = [
   standalone: true
 })
 export class MenuMainComponent {
-  @ViewChild('table', { static: true }) table!: MatTable<menuModel>;
-  @ViewChildren(MatTable) subTables!: QueryList<MatTable<subModel>>;
+  @ViewChild('table', { static: true }) table!: MatTable<PageModel>;
+  @ViewChildren(MatTable) subTables!: QueryList<MatTable<PageModel>>;
   router = inject(Router);
   displayedColumns: string[] = ['sort', 'isEdit'];
-  expandedElement: menuModel | null = null;
+  expandedElement: PageModel | null = null;
   dataSource = ELEMENT_DATA;
 
   drop(event: CdkDragDrop<string>) {
@@ -79,42 +108,46 @@ export class MenuMainComponent {
     this.table.renderRows();
     console.log(this.dataSource);
   }
-  dropDetial(event: any, element: menuModel) {
+  dropDetail(event: any, element: PageModel) {
     console.log(event.item.data);
-    const previousIndex = element.subList.findIndex(d => d === event.item.data);
-    moveItemInArray(element.subList, previousIndex, event.currentIndex);
+    if (element.subList) {
+      const previousIndex = element.subList.findIndex(d => d === event.item.data);
+      moveItemInArray(element.subList, previousIndex, event.currentIndex);
 
-    // 找到對應的子表格並渲染
-    const subTable = this.subTables.find(table => {
-      return table.dataSource === element.subList;
-    });
+      // 找到對應的子表格並渲染
+      const subTable = this.subTables.find(table => {
+        return table.dataSource === element.subList;
+      });
 
-    if (subTable) {
-      subTable.renderRows();
+      if (subTable) {
+        subTable.renderRows();
+      } else {
+        console.error("找不到對應的子表格");
+      }
     } else {
-      console.error("找不到對應的子表格");
+      console.error("element.subList 未定義");
     }
     console.log(this.dataSource);
   }
-  toggle(element: menuModel) {
+  toggle(element: PageModel) {
     this.expandedElement = this.isExpanded(element) ? null : element;
   }
-  isExpanded(element: menuModel) {
+  isExpanded(element: PageModel) {
     return this.expandedElement === element;
   }
-  onSave(data: menuModel) {
+  onSave(data: PageModel) {
     data.isEdit = !data.isEdit;
   }
   onOpenPage() {
     this.router.navigate(['/menuManage/pageManage']);
   }
-  onDelete(data: menuModel) {
+  onDelete(data: PageModel) {
 
   }
-  onEdit(data: menuModel) {
+  onEdit(data: PageModel) {
     data.isEdit = !data.isEdit;
   }
-  onCancel(data: menuModel) {
+  onCancel(data: PageModel) {
     data.isEdit = !data.isEdit;
   }
 }
