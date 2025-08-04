@@ -9,7 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { Router, RouterOutlet } from '@angular/router';
-
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 export interface PageModel {
   pageName: string;
@@ -81,7 +81,7 @@ export const ELEMENT_DATA: PageModel[] = [
 ];
 @Component({
   selector: 'app-menu-main',
-  imports: [CommonModule, MatFormFieldModule, FormsModule, CdkDropList, CdkDrag, MatTableModule, MatIconModule, MatButtonModule, MatInputModule],
+  imports: [CommonModule, MatFormFieldModule, FormsModule, CdkDropList, CdkDrag, MatTableModule, MatIconModule, MatButtonModule, MatInputModule,MatSlideToggleModule],
   templateUrl: './menu-main.component.html',
   styleUrl: './menu-main.component.scss',
   animations: [

@@ -88,16 +88,16 @@ body {
 .ql-snow.ql-toolbar button .ql-stroke,
 .ql-snow .ql-toolbar button .ql-stroke,
 .ql-snow .ql-picker-label svg .ql-stroke {
-  stroke: #e0e0e0; /* 圖示描邊的顏色 */
+  stroke: #e0e0e0;
 }
 
 .ql-snow.ql-toolbar button .ql-fill,
 .ql-snow .ql-toolbar button .ql-fill {
-  fill: #e0e0e0; /* 實心圖示的顏色 */
+  fill: #e0e0e0;
 }
 
 .ql-snow .ql-picker-label {
-  color: #e0e0e0; /* 下拉選單中的文字顏色 (例如：字型、大小) */
+  color: #e0e0e0;
 }
 
 /* 2. 工具列項目在滑鼠懸停或選中時的顏色 */
@@ -105,12 +105,12 @@ body {
 .ql-snow .ql-toolbar .ql-picker-label:hover,
 .ql-snow.ql-toolbar button.ql-active,
 .ql-snow .ql-toolbar .ql-picker-label.ql-active {
-  color: #ffff; /* 滑鼠懸停或選中時更亮的顏色 */
+  color: #ffff;
 }
 
 .ql-toolbar.ql-snow .ql-picker.ql-expanded .ql-picker-options {
-    border-color: #ccc;
-    background-color: #262626;
+  border-color: #ccc;
+  background-color: #262626;
 }
 
 .ql-snow.ql-toolbar button:hover .ql-stroke,
@@ -135,8 +135,9 @@ body {
 }
 
 .mat-form-field-appearance-outline .mat-form-field-wrapper {
-    margin: none;
+  margin: none;
 }
+
 .mat-mdc-text-field-wrapper {
   height: 40px !important;
   background-color: #fff !important;
@@ -198,6 +199,7 @@ body {
 .mdc-line-ripple {
   display: none !important;
 }
+
 .mat-mdc-form-field-hint-wrapper,
 .mat-mdc-form-field-error-wrapper {
   padding: 0px !important;
@@ -214,8 +216,10 @@ body {
 /* 讓工具列的下拉選單顯示字型名稱與樣式 */
 .ql-snow .ql-picker.ql-font .ql-picker-item[data-value="noto-sans-tc"]::before,
 .ql-snow .ql-picker.ql-font .ql-picker-label[data-value="noto-sans-tc"]::before {
-  content: "思源黑體"; /* 在下拉選單中顯示的名稱 */
-  font-family: "Noto Sans TC", sans-serif; /* 讓選項本身也套用字型 */
+  content: "思源黑體";
+  /* 在下拉選單中顯示的名稱 */
+  font-family: "Noto Sans TC", sans-serif;
+  /* 讓選項本身也套用字型 */
 }
 
 /* For Microsoft JhengHei (微軟正黑體) */
@@ -256,8 +260,9 @@ body {
   content: "新細明體";
   font-family: "MingLiU", "新細明體", serif;
 }
- .ql-toolbar .ql-header .ql-picker-label,
- .ql-toolbar .ql-header .ql-picker-options {
+
+.ql-toolbar .ql-header .ql-picker-label,
+.ql-toolbar .ql-header .ql-picker-options {
   min-width: 120px !important;
 }
 
@@ -267,9 +272,11 @@ body .ql-snow .ql-picker.ql-size .ql-picker-item::before {
   content: attr(data-value) !important;
   font-size: 14px !important;
 }
+
 body .ql-snow .ql-picker.ql-size .ql-picker-item[data-value] {
   font-size: 14px !important;
 }
+
 // 下拉選單最大高度與滾動條
 body .ql-snow .ql-picker.ql-size .ql-picker-options {
   max-height: 220px;
@@ -279,45 +286,58 @@ body .ql-snow .ql-picker.ql-size .ql-picker-options {
 body .ql-snow .ql-picker.ql-header .ql-picker-item[data-value="1"]::before {
   content: '標題 1' !important;
 }
+
 body .ql-snow .ql-picker.ql-header .ql-picker-item[data-value="2"]::before {
   content: '標題 2' !important;
 }
+
 body .ql-snow .ql-picker.ql-header .ql-picker-item[data-value="3"]::before {
   content: '標題 3' !important;
 }
+
 body .ql-snow .ql-picker.ql-header .ql-picker-item[data-value="4"]::before {
   content: '標題 4' !important;
 }
+
 body .ql-snow .ql-picker.ql-header .ql-picker-item[data-value="5"]::before {
   content: '標題 5' !important;
 }
+
 body .ql-snow .ql-picker.ql-header .ql-picker-item[data-value="6"]::before {
   content: '標題 6' !important;
 }
+
 body .ql-snow .ql-picker.ql-header .ql-picker-item[data-value="false"]::before,
 body .ql-snow .ql-picker.ql-header .ql-picker-item[data-value=false]::before,
 body .ql-snow .ql-picker.ql-header .ql-picker-item:not([data-value])::before,
 body .ql-snow .ql-picker.ql-header .ql-picker-item[data-value=""]::before {
   content: '一般段落' !important;
 }
+
 body .ql-snow .ql-picker.ql-header .ql-picker-label[data-value="1"]::before {
   content: '標題 1' !important;
 }
+
 body .ql-snow .ql-picker.ql-header .ql-picker-label[data-value="2"]::before {
   content: '標題 2' !important;
 }
+
 body .ql-snow .ql-picker.ql-header .ql-picker-label[data-value="3"]::before {
   content: '標題 3' !important;
 }
+
 body .ql-snow .ql-picker.ql-header .ql-picker-label[data-value="4"]::before {
   content: '標題 4' !important;
 }
+
 body .ql-snow .ql-picker.ql-header .ql-picker-label[data-value="5"]::before {
   content: '標題 5' !important;
 }
+
 body .ql-snow .ql-picker.ql-header .ql-picker-label[data-value="6"]::before {
   content: '標題 6' !important;
 }
+
 body .ql-snow .ql-picker.ql-header .ql-picker-label[data-value="false"]::before,
 body .ql-snow .ql-picker.ql-header .ql-picker-label[data-value=false]::before,
 body .ql-snow .ql-picker.ql-header .ql-picker-label:not([data-value])::before,
@@ -325,3 +345,8 @@ body .ql-snow .ql-picker.ql-header .ql-picker-label[data-value=""]::before {
   content: '一般段落' !important;
 }
 
+:root .mat-mdc-slide-toggle.mat-accent {
+  --mdc-switch-selected-focus-handle-color: #1976d2;
+  --mdc-switch-selected-hover-handle-color: #1976d2;
+  --mdc-switch-selected-pressed-handle-color: #1976d2;
+}

@@ -16,9 +16,14 @@
         <div *ngIf="!element.isEdit">
           {{ element.pageName }}
         </div>
+        <div>
+          <mat-slide-toggle [(ngModel)]="element.isActive" style="margin-left: 12px;">
+            <span>{{ element.isActive ? 'On' : 'Off' }}</span>
+          </mat-slide-toggle>
+        </div>
         <div *ngIf="element.isEdit" style="margin-top: 20px;">
           <mat-form-field appearance="outline">
-             <input matInput [(ngModel)]="element.pageName" />
+            <input matInput [(ngModel)]="element.pageName" />
           </mat-form-field>
         </div>
       </div>
@@ -59,6 +64,11 @@
               <div style="width: 25%"></div>
               <mat-icon class="drag">drag_indicator</mat-icon>
               {{ subItem.pageName }}
+              <div>
+                <mat-slide-toggle [(ngModel)]="subItem.isActive" style="margin-left: 12px;">
+                  <span>{{ subItem.isActive ? 'On' : 'Off' }}</span>
+                </mat-slide-toggle>
+              </div>
             </mat-cell>
           </ng-container>
           <ng-container matColumnDef="isEdit">
