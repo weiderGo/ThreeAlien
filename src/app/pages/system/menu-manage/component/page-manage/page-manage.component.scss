@@ -17,8 +17,11 @@ $transition-time: 0.3s;
 }
 
 .button-container {
-  text-align: right;
+   text-align: right;
   margin-bottom: 24px;
+  display: flex;
+  gap: 15px;
+  flex-direction: column;
 
   button {
     padding: 8px 24px;
@@ -431,8 +434,7 @@ $transition-time: 0.3s;
 // SEO 側邊欄與主內容區塊彈性排版
 .page-manage-flex {
   display: flex;
-  align-items: flex-start;
-  gap: 32px;
+  align-items: flex-start; 
 }
 
 .seo-sidebar {

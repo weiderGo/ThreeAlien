@@ -126,6 +126,12 @@ export class PageManageComponent implements OnInit {
       }
     });
   }
+  saveLayoutGroup() {
+    return;
+  }
+  deleteAllLayoutGroup(){
+    this.layoutGroups = [];
+  }
 
   // 拖拽排序處理
   dropLayoutGroup(event: CdkDragDrop<LayoutGroup[]>) {

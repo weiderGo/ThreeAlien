@@ -32,6 +32,14 @@
         <mat-icon>add</mat-icon>
         <span class="button-text">新增版型區塊</span>
       </button>
+      <button mat-raised-button style="background-color: #00994e;color: #fff;" (click)="saveLayoutGroup()">
+        <mat-icon>save</mat-icon>
+        <span class="button-text">儲存</span>
+      </button>
+      <button mat-raised-button color="warn" (click)="deleteAllLayoutGroup()">
+        <mat-icon>delete</mat-icon>
+        <span class="button-text">取消</span>
+      </button>
     </div>
     <div class="layout-container">
       <div class="content-container" cdkDropList (cdkDropListDropped)="dropLayoutGroup($event)">
