@@ -14,7 +14,7 @@
           <mat-icon class="drag">drag_indicator</mat-icon>
         </div>
         <div *ngIf="!element.isEdit">
-          {{ element.pageName }}
+          {{ element.menuName }}
         </div>
         <div>
           <mat-slide-toggle [(ngModel)]="element.isActive" style="margin-left: 12px;">
@@ -23,7 +23,7 @@
         </div>
         <div *ngIf="element.isEdit" style="margin-top: 20px;">
           <mat-form-field appearance="outline">
-            <input matInput [(ngModel)]="element.pageName" />
+            <input matInput [(ngModel)]="element.menuName" />
           </mat-form-field>
         </div>
       </div>
@@ -58,12 +58,12 @@
       <div class="element-detail" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
         <mat-table #subTable [dataSource]="element.subList" class="sub-table" cdkDropList
           (cdkDropListDropped)="dropDetail($event, element)" cdkDropListData="element.subList">
-          <ng-container matColumnDef="pageName">
+          <ng-container matColumnDef="menuName">
             <mat-header-cell *matHeaderCellDef></mat-header-cell>
             <mat-cell *matCellDef="let subItem" class="subName">
               <div style="width: 25%"></div>
               <mat-icon class="drag">drag_indicator</mat-icon>
-              {{ subItem.pageName }}
+              {{ subItem.menuName }}
               <div>
                 <mat-slide-toggle [(ngModel)]="subItem.isActive" style="margin-left: 12px;">
                   <span>{{ subItem.isActive ? 'On' : 'Off' }}</span>
@@ -91,7 +91,7 @@
               </button>
             </mat-cell>
           </ng-container>
-          <mat-row *matRowDef="let row; columns: ['pageName', 'isEdit']" cdkDrag [cdkDragData]="row"></mat-row>
+          <mat-row *matRowDef="let row; columns: ['menuName', 'isEdit']" cdkDrag [cdkDragData]="row"></mat-row>
         </mat-table>
       </div>
     </td>

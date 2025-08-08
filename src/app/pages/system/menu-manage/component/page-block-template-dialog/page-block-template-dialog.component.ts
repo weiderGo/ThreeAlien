@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
+import { BlockTemplate } from '../../interface';
 
 @Component({
   selector: 'app-page-block-template-dialog',
@@ -11,20 +12,20 @@ import { MatDialogRef } from '@angular/material/dialog';
 })
 export class PageBlockTemplateDialogComponent {
 
-  layouts: any[] = [
-    { value: 'large_carousel', label: '大圖輪播' },
-    { value: 'small_carousel', label: '小圖輪播' },
-    { value: 'LIRT', label: '左圖右文' },
-    { value: 'RILT', label: '右圖左文' },
-    { value: 'TIBT', label: '上圖下文' },
-    { value: 'BITT', label: '下圖上文' },
-    { value: 'video', label: '影片' },
-    { value: 'text', label: '純文字' },
-    { value: 'image', label: '純圖片' },
+  layouts: BlockTemplate[] = [
+    { templateCode: 'large_carousel', templateName: '大圖輪播' },
+    { templateCode: 'small_carousel', templateName: '小圖輪播' },
+    { templateCode: 'LIRT', templateName: '左圖右文' },
+    { templateCode: 'RILT', templateName: '右圖左文' },
+    { templateCode: 'TIBT', templateName: '上圖下文' },
+    { templateCode: 'BITT', templateName: '下圖上文' },
+    { templateCode: 'video', templateName: '影片' },
+    { templateCode: 'text', templateName: '純文字' },
+    { templateCode: 'image', templateName: '純圖片' },
   ];
 constructor(private dialogRef: MatDialogRef<PageBlockTemplateDialogComponent>) {}
 
-selectLayout(layout: any) {
+selectLayout(layout: BlockTemplate) {
   this.dialogRef.close(layout);
 }
 }

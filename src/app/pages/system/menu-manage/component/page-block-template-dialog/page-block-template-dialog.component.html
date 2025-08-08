@@ -1,6 +1,6 @@
 <div class="block-template-list">
   <div class="block-template-item" *ngFor="let layout of layouts" (click)="selectLayout(layout)" tabindex="0">
-    <img [src]="'/assets/uploads/icon_' + layout.value + '.svg'" [alt]="layout.label" class="block-template-icon" />
-    <div class="block-template-label">{{ layout.label }}</div>
+    <img [src]="'/assets/uploads/icon_' + layout.templateCode + '.svg'" [alt]="layout.templateName" class="block-template-icon" />
+    <div class="block-template-label">{{ layout.templateName }}</div>
   </div>
 </div>

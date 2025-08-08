@@ -9,79 +9,68 @@ import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { Router, RouterOutlet } from '@angular/router';
-import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { Menu } from '../../interface';
 
-export interface PageModel {
-  pageName: string;
-  sort: number;
-  isEdit: boolean;
-  isActive: boolean;
-  iconClass: string;
-  subList?: PageModel[]
-}
-
-export const ELEMENT_DATA: PageModel[] = [
+export const ELEMENT_DATA: Menu[] = [
   {
+    menuCode: '',
     sort: 1,
-    pageName: '關於宸暐',
+    menuName: '關於宸暐',
     isActive: true,
     isEdit: false,
+    iconClass: '',
+    url: '',
     subList: [
-      { pageName: '電話', sort: 0, isEdit: false, isActive: true, iconClass: 'phone' },
-      { pageName: '地址', sort: 1, isEdit: false, isActive: true, iconClass: 'address' },
-      { pageName: '照片', sort: 2, isEdit: false, isActive: true, iconClass: 'photo' }
+      { menuName: '電話', sort: 0, isEdit: false, isActive: true, iconClass: 'phone', menuCode: '', url: '' },
+      { menuName: '地址', sort: 1, isEdit: false, isActive: true, iconClass: 'address', menuCode: '', url: '' },
+      { menuName: '照片', sort: 2, isEdit: false, isActive: true, iconClass: 'photo', menuCode: '', url: '' }
     ],
-    iconClass: ''
   },
   {
+    menuCode: '',
     sort: 2,
-    pageName: '鑄造流程',
+    menuName: '鑄造流程',
     isEdit: false,
     isActive: true,
+    iconClass: '',
+    url: '',
     subList: [
-      {
-        pageName: '公司電話', sort: 0, isEdit: false, isActive: true,
-        iconClass: ''
-      },
-      {
-        pageName: '公司地址', sort: 1, isEdit: false, isActive: true,
-        iconClass: ''
-      }
+      { menuName: '公司電話', sort: 1, isEdit: false, isActive: true, iconClass: 'phone', menuCode: '', url: '' },
+      { menuName: '公司地址', sort: 2, isEdit: false, isActive: true, iconClass: 'phone', menuCode: '', url: '' },
     ],
-    iconClass: ''
   },
   {
-    sort: 3, pageName: '鑄造設備',
+    sort: 3, menuName: '鑄造設備',
     isActive: true,
     isEdit: false,
-    subList: [
-      {
-        pageName: '電子產品', sort: 0, isEdit: false, isActive: true,
-        iconClass: ''
-      },
-      {
-        pageName: '寢具', sort: 1, isEdit: false, isActive: true,
-        iconClass: ''
-      }
-    ],
-    iconClass: ''
+    subList: [],
+    iconClass: '',
+    menuCode: '',
+    url: ''
   },
   {
-    sort: 4, pageName: '檢測設備', isEdit: false, isActive: true, subList: [],
-    iconClass: ''
+    sort: 4, menuName: '檢測設備', isEdit: false, isActive: true, subList: [],
+    iconClass: '',
+    menuCode: '',
+    url: ''
   },
   {
-    sort: 5, pageName: '產品', isEdit: false, isActive: true, subList: [],
-    iconClass: ''
+    sort: 5, menuName: '產品', isEdit: false, isActive: true, subList: [],
+    iconClass: '',
+    menuCode: '',
+    url: ''
   },
   {
-    sort: 6, pageName: '聯絡我們', isEdit: false, isActive: true, subList: [],
-    iconClass: ''
+    sort: 6, menuName: '聯絡我們', isEdit: false, isActive: true, subList: [],
+    iconClass: '',
+    menuCode: '',
+    url: ''
   },
 ];
 @Component({
   selector: 'app-menu-main',
-  imports: [CommonModule, MatFormFieldModule, FormsModule, CdkDropList, CdkDrag, MatTableModule, MatIconModule, MatButtonModule, MatInputModule,MatSlideToggleModule],
+  imports: [CommonModule, MatFormFieldModule, FormsModule, CdkDropList, CdkDrag, MatTableModule, MatIconModule, MatButtonModule, MatInputModule, MatSlideToggleModule],
   templateUrl: './menu-main.component.html',
   styleUrl: './menu-main.component.scss',
   animations: [
@@ -94,11 +83,11 @@ export const ELEMENT_DATA: PageModel[] = [
   standalone: true
 })
 export class MenuMainComponent {
-  @ViewChild('table', { static: true }) table!: MatTable<PageModel>;
-  @ViewChildren(MatTable) subTables!: QueryList<MatTable<PageModel>>;
+  @ViewChild('table', { static: true }) table!: MatTable<Menu>;
+  @ViewChildren(MatTable) subTables!: QueryList<MatTable<Menu>>;
   router = inject(Router);
   displayedColumns: string[] = ['sort', 'isEdit'];
-  expandedElement: PageModel | null = null;
+  expandedElement: Menu | null = null;
   dataSource = ELEMENT_DATA;
 
   drop(event: CdkDragDrop<string>) {
@@ -108,7 +97,7 @@ export class MenuMainComponent {
     this.table.renderRows();
     console.log(this.dataSource);
   }
-  dropDetail(event: any, element: PageModel) {
+  dropDetail(event: any, element: Menu) {
     console.log(event.item.data);
     if (element.subList) {
       const previousIndex = element.subList.findIndex(d => d === event.item.data);
@@ -129,25 +118,25 @@ export class MenuMainComponent {
     }
     console.log(this.dataSource);
   }
-  toggle(element: PageModel) {
+  toggle(element: Menu) {
     this.expandedElement = this.isExpanded(element) ? null : element;
   }
-  isExpanded(element: PageModel) {
+  isExpanded(element: Menu) {
     return this.expandedElement === element;
   }
-  onSave(data: PageModel) {
+  onSave(data: Menu) {
     data.isEdit = !data.isEdit;
   }
   onOpenPage() {
     this.router.navigate(['/menuManage/pageManage']);
   }
-  onDelete(data: PageModel) {
+  onDelete(data: Menu) {
 
   }
-  onEdit(data: PageModel) {
+  onEdit(data: Menu) {
     data.isEdit = !data.isEdit;
   }
-  onCancel(data: PageModel) {
+  onCancel(data: Menu) {
     data.isEdit = !data.isEdit;
   }
 }

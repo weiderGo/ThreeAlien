@@ -2,28 +2,58 @@
   <!-- SEO 設定側邊欄 -->
   <aside class="seo-sidebar">
     <h3>SEO 設定</h3>
-    <form>
-      標題
+    <form [formGroup]="seoForm">
+      SEO 標題
       <mat-form-field appearance="outline">
-        <input matInput [(ngModel)]="seo.title" name="seoTitle" maxlength="60" />
+        <input matInput formControlName="title" maxlength="60" />
+        <mat-hint align="end">{{seoForm.get('title')?.value?.length || 0}}/60</mat-hint>
+        <mat-error *ngIf="seoForm.get('title')?.hasError('required')">
+          標題為必填欄位
+        </mat-error>
+        <mat-error *ngIf="seoForm.get('title')?.hasError('maxlength')">
+          標題不可超過 60 個字元
+        </mat-error>
       </mat-form-field>
-      內文
+      SEO 描述
       <mat-form-field appearance="outline">
-        <input matInput [(ngModel)]="seo.description" name="seoDescription" maxlength="160" rows="3">
+        <input matInput formControlName="description" maxlength="160">
+        <mat-hint align="end">{{seoForm.get('description')?.value?.length || 0}}/160</mat-hint>
+        <mat-error *ngIf="seoForm.get('description')?.hasError('required')">
+          描述為必填欄位
+        </mat-error>
+        <mat-error *ngIf="seoForm.get('description')?.hasError('maxlength')">
+          描述不可超過 160 個字元
+        </mat-error>
       </mat-form-field>
-      關鍵字
+      SEO 關鍵字
       <mat-form-field appearance="outline">
-        <input matInput [(ngModel)]="seo.keywords" name="seoKeywords" placeholder="以逗號分隔" />
+        <input matInput formControlName="keywords" placeholder="以逗號分隔" />
+        <mat-error *ngIf="seoForm.get('keywords')?.hasError('required')">
+          關鍵字為必填欄位
+        </mat-error>
       </mat-form-field>
-      預覽圖片
+      OG 圖片
       <mat-form-field appearance="outline">
-        <input matInput [(ngModel)]="seo.ogImage" name="seoOgImage" placeholder="圖片網址" />
+        <input matInput formControlName="ogImage" placeholder="圖片網址" />
       </mat-form-field>
-      內頁標籤
+      標籤名稱
       <mat-form-field appearance="outline">
-        <input matInput [(ngModel)]="seo.tagName" name="tagName" placeholder="以逗號分隔" />
+        <input matInput formControlName="tagName" placeholder="以逗號分隔" />
       </mat-form-field>
-      <!-- 可依需求擴充更多 SEO 欄位 -->
+
+      <!-- SEO 表單狀態顯示 -->
+      <div class="form-status" *ngIf="seoForm.invalid && seoForm.touched">
+        <mat-error>請修正上述錯誤後再儲存</mat-error>
+      </div>
+
+      <!-- 儲存按鈕 -->
+      <button mat-raised-button color="primary"
+              [disabled]="seoForm.invalid"
+              (click)="saveSeoConfig()"
+              style="margin-top: 16px;">
+        <mat-icon>save</mat-icon>
+        儲存 SEO 設定
+      </button>
     </form>
   </aside>
   <div class="main-content">
@@ -38,7 +68,7 @@
       </button>
       <button mat-raised-button color="warn" (click)="deleteAllLayoutGroup()">
         <mat-icon>delete</mat-icon>
-        <span class="button-text">取消</span>
+        <span class="button-text">清空所有區塊</span>
       </button>
     </div>
     <div class="layout-container">

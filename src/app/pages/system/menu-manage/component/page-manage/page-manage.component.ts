@@ -1,6 +1,6 @@
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -15,9 +15,10 @@ import { CarouselModule } from 'primeng/carousel';
 import { MatInputModule } from '@angular/material/input';
 import { LayoutGroup } from '../../interface/block';
 import { CdkDragDrop, DragDropModule, moveItemInArray } from '@angular/cdk/drag-drop';
+import { BlockTemplate, SeoConfig, SeoConfigCreateRequest } from '../../interface';
 
 // 這份字型列表是純資料，可以保留在模組頂層
-const fontNames = ['noto-sans-tc','serif', 'monospace',  'microsoft-jhenghei', 'dfkai-sb', 'mingliu'];
+const fontNames = ['noto-sans-tc', 'serif', 'monospace', 'microsoft-jhenghei', 'dfkai-sb', 'mingliu'];
 
 @Component({
   selector: 'app-page-manage',
@@ -25,21 +26,28 @@ const fontNames = ['noto-sans-tc','serif', 'monospace',  'microsoft-jhenghei', '
   styleUrls: ['./page-manage.component.scss'],
   standalone: true,
   imports: [
-    FormsModule, MatFormFieldModule, MatSelectModule, MatButtonModule,CarouselModule,MatInputModule,
+    FormsModule, ReactiveFormsModule, MatFormFieldModule, MatSelectModule, MatButtonModule, CarouselModule, MatInputModule,
     MatIconModule, MatDividerModule, CommonModule, MatMenuModule, EditorModule, ImageManageComponent, DragDropModule
   ]
 })
 export class PageManageComponent implements OnInit {
 
-  constructor(@Inject(PLATFORM_ID) private platformId: Object, public dialog: MatDialog) { }
-  // SEO 設定物件
-  seo = {
-    title: '',
-    description: '',
-    keywords: '',
-    ogImage: '',
-    tagName:''
-  };
+  constructor(
+    @Inject(PLATFORM_ID) private platformId: Object,
+    public dialog: MatDialog,
+    private fb: FormBuilder
+  ) {
+    this.seoForm = this.fb.group({
+      title: ['', [Validators.required, Validators.maxLength(60)]],
+      description: ['', [Validators.required, Validators.maxLength(160)]],
+      keywords: ['', Validators.required],
+      ogImage: [''],
+      tagName: ['']
+    });
+  }
+
+  // SEO 表單
+  seoForm: FormGroup;
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
       import('quill').then(QuillModule => {
@@ -57,18 +65,13 @@ export class PageManageComponent implements OnInit {
     }
   }
 
-  layouts: any[] = [
-    { value: 'LIRT', label: '左圖右文' },
-    { value: 'RILT', label: '右圖左文' },
-    { value: 'TIBT', label: '上圖下文' },
-    { value: 'BITT', label: '下圖上文' }
-  ];
+
   layoutGroups: LayoutGroup[] = [];
 
   // 定義 p-editor 的 modules
-  editorModules:any;
+  editorModules: any;
   //純文字
-  editorOnlyText:any;
+  editorOnlyText: any;
 
   initializeEditorModules() {
     // 產生 2~72 的偶數 px
@@ -101,23 +104,18 @@ export class PageManageComponent implements OnInit {
     };
   }
 
-  getLayoutLabel(type: string): string {
-    const layout = this.layouts.find(l => l.value === type);
-    return layout ? layout.label : '未知版型';
-  }
-
   addLayoutGroup() {
     this.dialog.open(PageBlockTemplateDialogComponent, {
       width: '80%',
-      height: '360px',
-      data: { layouts: this.layouts }
-    }).afterClosed().subscribe(res => {
+      height: '360px'
+    }).afterClosed().subscribe((res: BlockTemplate) => {
       if (res) {
         this.layoutGroups.push({
-          type: res.value,
+          type: res.templateCode,
           sortOrder: this.layoutGroups.length + 1, // 新增排序編號
           data: [{
-            text: '', imageUrl: '',
+            text: '',
+            imageUrl: '',
             imageId: '',
             sort: this.layoutGroups.length // 設定為當前數量，確保排序正確
           }]
@@ -129,7 +127,7 @@ export class PageManageComponent implements OnInit {
   saveLayoutGroup() {
     return;
   }
-  deleteAllLayoutGroup(){
+  deleteAllLayoutGroup() {
     this.layoutGroups = [];
   }
 
@@ -175,6 +173,55 @@ export class PageManageComponent implements OnInit {
     this.layoutGroups[groupIndex].data.splice(blockIndex, 1);
   }
 
+  // SEO 表單相關方法
+  saveSeoConfig() {
+    if (this.seoForm.valid) {
+      const formValue = this.seoForm.value;
+
+      // 建構 SEO 設定請求物件
+      const seoRequest: SeoConfigCreateRequest = {
+        seoCode: 'SEO_' + Date.now(), // 產生唯一的 SEO 代碼
+        pageCode: 'PAGE_001', // 這裡應該從路由或其他地方取得頁面代碼
+        seoTitle: formValue.title,
+        seoDescription: formValue.description,
+        seoKeywords: formValue.keywords,
+        ogImage: formValue.ogImage || undefined,
+        seoTagName: formValue.tagName,
+        schemaTypeCode: 'WEBPAGE', // 預設為網頁類型
+        creator: 'SYSTEM' // 這裡應該從使用者認證取得
+      };
+
+      console.log('SEO 設定:', seoRequest);
+      // 這裡可以呼叫 API 儲存 SEO 設定
+      // this.seoService.createSeoConfig(seoRequest);
+
+      // 顯示成功訊息（你可以使用 MatSnackBar 或其他通知方式）
+      alert('SEO 設定已儲存！');
+    } else {
+      console.log('表單驗證失敗');
+      // 標記所有欄位為已觸摸，顯示錯誤訊息
+      this.markFormGroupTouched(this.seoForm);
+    }
+  }
+
+  // 載入現有的 SEO 設定
+  loadSeoConfig(seoConfig: SeoConfig) {
+    this.seoForm.patchValue({
+      title: seoConfig.seoTitle,
+      description: seoConfig.seoDescription,
+      keywords: seoConfig.seoKeywords,
+      ogImage: seoConfig.ogImage || '',
+      tagName: seoConfig.seoTagName
+    });
+  }
+
+  private markFormGroupTouched(formGroup: FormGroup) {
+    Object.keys(formGroup.controls).forEach(key => {
+      const control = formGroup.get(key);
+      control?.markAsTouched();
+    });
+  }
+
   onFileChange(event: any, block: any) {
     const file = event.target.files[0];
     if (file) {
@@ -183,7 +230,7 @@ export class PageManageComponent implements OnInit {
       reader.readAsDataURL(file);
     }
   }
-  addCarouselImage(data:any){
+  addCarouselImage(data: any) {
     console.log(data);
   }
   //  注意:  需要自行調整 ImageManageComponent 的輸出，確保能取得圖片資訊
