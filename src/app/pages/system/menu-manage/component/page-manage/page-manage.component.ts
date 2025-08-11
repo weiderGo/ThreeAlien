@@ -111,7 +111,7 @@ export class PageManageComponent implements OnInit {
     }).afterClosed().subscribe((res: BlockTemplate) => {
       if (res) {
         this.layoutGroups.push({
-          type: res.templateCode,
+          templateCode: res.templateCode,
           sortOrder: this.layoutGroups.length + 1, // 新增排序編號
           data: [{
             text: '',
