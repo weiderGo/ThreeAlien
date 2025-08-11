@@ -1,5 +1,4 @@
 export interface SeoConfig {
-  seoId: number;
   seoCode: string;
   pageCode: string;
   seoTitle: string;

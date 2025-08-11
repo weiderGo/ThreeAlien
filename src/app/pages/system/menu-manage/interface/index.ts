@@ -16,3 +16,4 @@ export * from './seo-how-to-step.interface';
 
 // Legacy block interface (preserved for backward compatibility)
 export * from './block';
+export * from './image.interface';
